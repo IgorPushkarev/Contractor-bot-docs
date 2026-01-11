@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Глосарій КОНТРАГЕНТ ІНФО</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --green: #22c55e;
+            --yellow: #eab308;
+            --red: #ef4444;
+            --bg-dark: #1a1a2e;
+            --bg-sidebar: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent: #3b82f6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        
+        .logo-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .dot-green { background: var(--green); }
+        .dot-yellow { background: var(--yellow); }
+        .dot-red { background: var(--red); }
+        
+        .logo p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        .lang-switcher {
+            display: flex;
+            gap: 5px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        
+        .lang-btn {
+            padding: 6px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .lang-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+        
+        .lang-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        
+        .search-box {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .nav-title {
+            padding: 10px 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+        }
+        
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+        
+        .nav-icon { font-size: 18px; }
+        .nav-text { font-size: 14px; }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        
+        /* Main Content */
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px 40px;
+            max-width: 950px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .page-header h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .indicator-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .indicator-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .indicator-card h3 span {
+            color: var(--text-secondary);
+            font-weight: normal;
+            font-size: 14px;
+        }
+        
+        .indicator-section {
+            margin-bottom: 20px;
+        }
+        
+        .indicator-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .formula-box {
+            background: rgba(0,0,0,0.3);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            color: #a5b4fc;
+        }
+        
+        .meaning-text {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        .scale-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .scale-row.green { background: rgba(34, 197, 94, 0.15); }
+        .scale-row.yellow { background: rgba(234, 179, 8, 0.15); }
+        .scale-row.red { background: rgba(239, 68, 68, 0.15); }
+        
+        .scale-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .scale-dot.green { background: var(--green); }
+        .scale-dot.yellow { background: var(--yellow); }
+        .scale-dot.red { background: var(--red); }
+        
+        .scale-threshold {
+            font-weight: 600;
+            min-width: 120px;
+            font-size: 14px;
+        }
+        
+        .scale-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .example-box {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 3px solid var(--yellow);
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        .actions-list {
+            list-style: none;
+        }
+        
+        .actions-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .actions-list li::before {
+            content: "→";
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .footer {
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .scale-threshold {
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>📊 КОНТРАГЕНТ ІНФО</h1>
+                <div class="logo-dots">
+                    <span class="dot-green"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-red"></span>
+                </div>
+                <p id="version">Глосарій показників v2.11</p>
+            </div>
+            
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLang('ua')">🇺🇦 UA</button>
+                <button class="lang-btn" onclick="setLang('en')">🇬🇧 EN</button>
+                <button class="lang-btn" onclick="setLang('de')">🇩🇪 DE</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="🔍 Пошук..." id="searchInput" onkeyup="searchIndicators()">
+            </div>
+            
+            <nav>
+                <div class="nav-title" id="nav-categories">Категорії</div>
+                
+                <div class="nav-item active" onclick="showPage('liquidity', this)">
+                    <span class="nav-icon">💧</span>
+                    <span class="nav-text" id="nav-liquidity">Ліквідність</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('turnover', this)">
+                    <span class="nav-icon">🔄</span>
+                    <span class="nav-text" id="nav-turnover">Оборотність</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('profitability', this)">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text" id="nav-profitability">Рентабельність</span>
+                    <span class="nav-badge">4</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('capital', this)">
+                    <span class="nav-icon">🏛️</span>
+                    <span class="nav-text" id="nav-capital">Структура капіталу</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('risk', this)">
+                    <span class="nav-icon">⚠️</span>
+                    <span class="nav-text" id="nav-risk">Ризик-індикатори</span>
+                    <span class="nav-badge">6</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('terms', this)">
+                    <span class="nav-icon">💼</span>
+                    <span class="nav-text" id="nav-terms">Умови співпраці</span>
+                    <span class="nav-badge">3</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('dynamics', this)">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text" id="nav-dynamics">Динаміка</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                
+                <div class="nav-item" onclick="showPage('categories', this)">
+                    <span class="nav-icon">🏷️</span>
+                    <span class="nav-text" id="nav-contractor-categories">Категорії контрагентів</span>
+                    <span class="nav-badge">3</span>
+                </div>
+            </nav>
+            
+            <div class="footer">
+                © 2026 КОНТРАГЕНТ ІНФО<br>
+                <span style="font-size: 10px; opacity: 0.7;">Автор: Ружицький І.Г.</span><br>
+                <span style="font-size: 9px; opacity: 0.5; line-height: 1.3; display: block; margin-top: 6px;">
+                    Усі права захищено.<br>
+                    Копіювання, розповсюдження<br>
+                    та використання без<br>
+                    письмової згоди автора<br>
+                    заборонено.
+                </span>
+                <span style="font-size: 10px; opacity: 0.7; display: block; margin-top: 8px;">Дані: <a href="https://youcontrol.com.ua" target="_blank" style="color: inherit;">YouControl</a></span>
+            </div>
+        </aside>
+        
+        <main class="main" id="mainContent">
+            
+            <!-- ==================== LIQUIDITY ==================== -->
+            <div class="page active" id="page-liquidity">
+                <div class="page-header">
+                    <h2>💧 <span id="title-liquidity">Ліквідність</span></h2>
+                    <p id="desc-liquidity"><strong>Ліквідність</strong> (від лат. <em>liquidus</em> — «рідкий, що перетікає») — здатність активу швидко перетворюватися на готівку без істотної втрати вартості. У контексті аналізу контрагента — здатність компанії погашати короткострокові зобов'язання.</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        📊 <strong>Ієрархія ліквідності активів:</strong> Готівка → Депозити → Цінні папери → Дебіторка → Запаси → Основні засоби. Саме тому Quick Ratio (без запасів) точніший за Current Ratio.
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        ⚠️ <strong>Не плутати:</strong> Ліквідність — здатність <em>швидко</em> погасити борги. Платоспроможність — здатність погасити <em>всі</em> борги взагалі. Компанія може бути платоспроможною, але неліквідною (гроші заморожені в запасах).
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(234, 179, 8, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        🏭 <strong>Галузева специфіка:</strong> Порогові значення залежать від КВЕД. Для ритейлу Current Ratio 1.2 — норма, для машинобудування — сигнал ризику.
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Cash Ratio <span id="cash-subtitle">(Коефіцієнт абсолютної ліквідності)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="cash-formula">(Грошові кошти (1165) + Еквіваленти) / Поточні зобов'язання (1695)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="cash-meaning"><strong>Найконсервативніший показник ліквідності</strong> — демонструє «миттєву платоспроможність». Яку частку поточних зобов'язань компанія може погасити негайно, використовуючи лише найліквідніші активи: готівку та її еквіваленти. Виключає з розрахунку запаси та дебіторську заборгованість, які потребують часу для конвертації в гроші.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Коли використовується</span></div>
+                        <p class="meaning-text">Для оцінки здатності компанії впоратися з несподіваними вимогами щодо оплати. Особливо важливий у кризові періоди, коли швидкість обігу інших активів знижується. Показує найгірший сценарій — коли потрібні гроші «тут і зараз».</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">≥ 0.20</span>
+                            <span class="scale-label" id="cash-green">Норма — достатній запас готівки</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">0.05–0.20</span>
+                            <span class="scale-label" id="cash-yellow">Задовільно — обмежена ліквідність</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 0.05</span>
+                            <span class="scale-label" id="cash-red">Критично — дефіцит готівки</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="cash-example">Cash ratio = 0.05 означає: грошей на рахунках вистачить лише на 5% термінових боргів. Будь-яка затримка від дебіторів автоматично призведе до прострочення власних платежів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="cash-actions">
+                            <li>Запитати графік надходжень на найближчий місяць</li>
+                            <li>Скоротити відстрочку платежу</li>
+                            <li>Вимагати часткову передоплату</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Quick Ratio <span id="quick-subtitle">(Коефіцієнт швидкої ліквідності, "Acid Test")</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="quick-formula">(Гроші (1165) + Короткострокові фін. інвестиції + Дебіторка (1125+1155)) / Поточні зобов'язання (1695)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="quick-meaning">Здатність компанії погасити короткострокові зобов'язання за допомогою <strong>високоліквідних активів</strong>, виключаючи запаси (які реалізуються найважче). Дає більш консервативну оцінку платоспроможності, ніж Current Ratio. Назва «Acid Test» (кислотний тест) походить з металургії — так само як кислота перевіряє справжність золота, цей показник перевіряє реальну ліквідність.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Ключова відмінність</span></div>
+                        <p class="meaning-text">На відміну від Current Ratio — <strong>виключає запаси</strong>, оскільки вони не завжди швидко перетворюються на гроші. Дозволяє оцінити «стресостійкість» компанії та ефективність управління активами, особливо в кризові періоди.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">≥ 1.0</span>
+                            <span class="scale-label" id="quick-green">Норма — повне покриття без запасів</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">0.8–1.0</span>
+                            <span class="scale-label" id="quick-yellow">Прийнятно — незначний дефіцит</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 0.8</span>
+                            <span class="scale-label" id="quick-red">Критично — залежність від запасів, проблеми з ліквідністю</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="quick-example">Quick ratio = 0.75 означає: високоліквідні активи покривають термінові зобов'язання лише на 75%. Компанія залежить від продажу запасів для погашення боргів — це сигнал про можливі проблеми з ліквідністю.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="quick-actions">
+                            <li>Оцінити ліквідність та оборотність запасів</li>
+                            <li>Запитати план погашення кредиторки</li>
+                            <li>Розглянути забезпечення (застава, порука)</li>
+                            <li>Інвестори та кредитори використовують цей показник для оцінки фінансової стійкості</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Current Ratio <span id="current-subtitle">(Коефіцієнт поточної ліквідності / покриття)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="current-formula">Оборотні активи (1195) / Поточні зобов'язання (1695)<br><small style="color: var(--text-secondary);">Current Assets / Current Liabilities</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="current-meaning"><strong>Ступінь покриття короткострокових зобов'язань оборотними активами.</strong> Показує, скільки гривень оборотних коштів припадає на кожну гривню поточних зобов'язань. Найбільш загальний і найчастіше використовуваний показник ліквідності. Якщо поточні активи перевищують зобов'язання — підприємство успішно функціонує.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Чому норматив = 2?</span></div>
+                        <p class="meaning-text">Історично вважається, що при ліквідації активів їх продажна ціна становить приблизно <strong>половину ринкової вартості</strong>. Тому коефіцієнт 2:1 гарантує: навіть якщо вартість активів зменшиться вдвічі — виручки вистачить на погашення боргів. <strong>Але:</strong> значення > 3 може свідчити про неефективну структуру активів.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">≥ 2.0</span>
+                            <span class="scale-label">Оптимально — повне покриття з запасом (класичний норматив)</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">1.5–2.0</span>
+                            <span class="scale-label" id="current-green">Норма — комфортний запас ліквідності</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1.0–1.5</span>
+                            <span class="scale-label" id="current-yellow">Задовільно — своєчасне погашення при нормальних умовах</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 1.0</span>
+                            <span class="scale-label" id="current-red">Критично — високий фінансовий ризик, технічна неплатоспроможність</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="current-example"><strong>Current Ratio = 2.0</strong> означає: на кожну гривню боргів компанія має 2 грн оборотних активів. Навіть при продажу за 50% вартості — боргів буде погашено. <strong>Current Ratio = 0.8</strong> означає: навіть продавши ВСІ оборотні активи, компанія покриє лише 80% боргів — дефіцит 20%.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="current-actions">
+                            <li>Якщо < 1.0: категорично уникати відстрочки, тільки 100% передоплата</li>
+                            <li>Якщо > 3.0: перевірити ефективність використання активів (можливо затоварення)</li>
+                            <li>Порівняти з Quick Ratio — різниця покаже частку запасів у ліквідності</li>
+                            <li>Відстежити динаміку — зниження тренду небезпечніше за абсолютне значення</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Working Capital <span id="wc-subtitle">(Оборотний капітал)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="wc-formula">Оборотні активи (1195) − Поточні зобов'язання (1695)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="wc-meaning">Абсолютна сума коштів, що залишиться після погашення всіх короткострокових боргів. Показує «подушку безпеки» компанії.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 0</span>
+                            <span class="scale-label" id="wc-green">Позитивний — є запас</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 0</span>
+                            <span class="scale-label" id="wc-red">Від'ємний — дефіцит покриття</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="wc-example">Working Capital = −5 млн грн означає: поточних активів не вистачає на 5 млн для покриття короткострокових боргів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="wc-actions">
+                            <li>Уточнити джерела покриття дефіциту</li>
+                            <li>Оцінити наявність кредитних ліній</li>
+                            <li>Скоротити обсяг відвантажень у борг</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="safeguard-title">Запобіжник ліквідності (Cash ≥ 1.0)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="safeguard-formula">Cash Ratio ≥ 1.0</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="safeguard-meaning">Особливий стан, коли грошових коштів достатньо для повного погашення ВСІХ поточних зобов'язань. Надлишкова ліквідність.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">Cash ≥ 1.0</span>
+                            <span class="scale-label" id="safeguard-green">Надліквідність — повний захист</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="safeguard-example">При Cash ratio ≥ 1.0 система ігнорує «червоні» показники CCC та DSO, оскільки компанія може погасити всі борги негайно.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="safeguard-actions">
+                            <li>Можна надавати стандартну відстрочку</li>
+                            <li>Низький ризик неплатежу</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== TURNOVER ==================== -->
+            <div class="page" id="page-turnover">
+                <div class="page-header">
+                    <h2>🔄 <span id="title-turnover">Оборотність</span></h2>
+                    <p id="desc-turnover"><strong>Оборотність</strong> — показник, що характеризує швидкість обороту активів та зобов'язань. Вимірюється двома способами: <em>коефіцієнт оборотності</em> (скільки разів актив «обернувся» за період) або <em>термін оборотності</em> (скільки днів триває один оборот).</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        💡 <strong>Принцип:</strong> Чим швидше оборот — тим швидше гроші повертаються в бізнес. Висока оборотність = менша потреба в зовнішньому фінансуванні.
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(234, 179, 8, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        🏭 <strong>Галузева специфіка:</strong> DSO/DIO критично залежать від галузі. Для FMCG норма DIO 30 днів, для машинобудування — 120+ днів.<br>
+                        📅 <strong>Дні періоду:</strong> Для річного звіту — 360 (або 365), для квартального — 90.
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>DSO <span id="dso-subtitle">(Days Sales Outstanding — Дні продажів у заборгованості)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="dso-formula">(Дебіторка (1125 + 1155) / Виручка (2000)) × Дні періоду<br><small style="color: var(--text-secondary);">або: Дебіторська заборгованість / (Продажі в кредит / Дні)</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="dso-meaning">Середня кількість днів, необхідна компанії для отримання оплати від клієнтів за продажі в кредит. <strong>Нижчий показник</strong> означає ефективніше управління дебіторською заборгованістю та кращий грошовий потік. <strong>Вищий показник</strong> може свідчити про проблеми з ліквідністю.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">Це індикатор того, наскільки ефективно компанія управляє своїми кредитними продажами та збором коштів. Показує, скільки днів в середньому гроші «застрягають» у дебіторах замість працювати на компанію.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 45 дн</span>
+                            <span class="scale-label" id="dso-green">Ефективно — швидкий збір</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">45–90 дн</span>
+                            <span class="scale-label" id="dso-yellow">Прийнятно — стандартна відстрочка</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 90 дн</span>
+                            <span class="scale-label" id="dso-red">Критично — гроші заморожені</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="dso-example">DSO = 90 днів означає: клієнти розраховуються в середньому через 3 місяці. Гроші «працюють» на клієнтів компанії, а не на саму компанію.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="dso-actions">
+                            <li>Запитати політику роботи з дебіторами</li>
+                            <li>Оцінити концентрацію (хто головні боржники)</li>
+                            <li>Скоротити власну відстрочку пропорційно</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>DIO <span id="dio-subtitle">(Days Inventory Outstanding — Дні оборотності запасів)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="dio-formula">(Середні запаси (1100) / Собівартість (2050)) × Дні періоду<br><small style="color: var(--text-secondary);">або: (Запаси / COGS) × 365 для річного періоду</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="dio-meaning">Скільки в середньому днів компанія тримає запаси на складі перед їх продажем. <strong>Ключовий індикатор ефективності управління запасами</strong> та частина циклу конвертації грошових коштів (CCC).</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">Висока оборотність (низький DIO) = швидке перетворення запасів у виручку, менший ризик затоварення та псування товару. Низька оборотність (високий DIO) = заморожування капіталу в запасах.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 60 дн</span>
+                            <span class="scale-label" id="dio-green">Ефективно — швидкий оборот</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">60–120 дн</span>
+                            <span class="scale-label" id="dio-yellow">Прийнятно — галузева норма</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 120 дн</span>
+                            <span class="scale-label" id="dio-red">Критично — затоварення</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="dio-example">DIO = 180 днів означає: запаси лежать на складі півроку до продажу. Ризик застарівання, псування товару, заморожування капіталу.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="dio-actions">
+                            <li>Оцінити структуру запасів</li>
+                            <li>Перевірити наявність неліквідів</li>
+                            <li>При оцінці ліквідності — ігнорувати запаси</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>DPO <span id="dpo-subtitle">(Days Payables Outstanding — Дні кредиторської заборгованості)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="dpo-formula">(Кредиторка (1615) / Собівартість (2050)) × Дні періоду<br><small style="color: var(--text-secondary);">або: (Accounts Payable / COGS) × 365</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="dpo-meaning">Середня кількість днів від отримання товару/послуги до оплати постачальнику. Показує, як компанія використовує <strong>«безкоштовний кредит»</strong> від постачальників. Вищий DPO зменшує CCC (це добре), але надто високий може свідчити про проблеми з платоспроможністю.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Зв'язок з CCC</span></div>
+                        <p class="meaning-text">DPO <strong>віднімається</strong> від операційного циклу (DSO + DIO). Чим довше компанія затримує оплату постачальникам — тим коротший її грошовий цикл. Але: якщо DPO занадто високий — ви ризикуєте опинитися в тій самій ситуації.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">30–60 дн</span>
+                            <span class="scale-label" id="dpo-green">Норма — стандартна відстрочка</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">60–90 дн</span>
+                            <span class="scale-label" id="dpo-yellow">Подовжена — можливий тиск</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 90 дн</span>
+                            <span class="scale-label" id="dpo-red">Критично — експлуатація постачальників</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="dpo-example">DPO = 120 днів означає: компанія затримує оплату постачальникам на 4 місяці. Якщо DSO = 60 днів — компанія отримує гроші від клієнтів вдвічі швидше, ніж платить. Але: якщо ви постачальник — ви ризикуєте чекати так само довго.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="dpo-actions">
+                            <li>Порівняти з DSO — якщо DPO >> DSO, компанія експлуатує постачальників</li>
+                            <li>Оцінити ризик затримки вашої оплати на такий самий термін</li>
+                            <li>Встановити жорсткіші терміни або вимагати забезпечення</li>
+                            <li>Перевірити наявність прострочень у реєстрі боржників</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>CCC <span id="ccc-subtitle">(Cash Conversion Cycle — Цикл конвертації готівки)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="ccc-formula">DSO + DIO − DPO<br><small style="color: var(--text-secondary);">Дні дебіторки + Дні запасів − Дні кредиторки</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="ccc-meaning"><strong>Чистий операційний цикл</strong> — час, який компанія витрачає на перетворення своїх запасів та інших вкладених коштів у готівку. Враховує час на продаж запасів, збір дебіторської заборгованості та час відстрочки від постачальників. <strong>Чим коротший CCC — тим краще</strong> для компанії.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">Один з найкращих способів перевірити ефективність операційної діяльності. Показує, як швидко компанія може купувати, продавати та отримувати готівку. <strong>Негативний CCC</strong> (як у Amazon) означає, що компанія отримує гроші від клієнтів раніше, ніж платить постачальникам — ідеальна модель.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">< 0 дн</span>
+                            <span class="scale-label">Ідеально — негативний цикл (як Amazon)</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">0–60 дн</span>
+                            <span class="scale-label" id="ccc-green">Ефективно — швидкий оборот капіталу</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">60–120 дн</span>
+                            <span class="scale-label" id="ccc-yellow">Прийнятно — стандартний цикл, потребує контролю</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 120 дн</span>
+                            <span class="scale-label" id="ccc-red">Критично — значна іммобілізація капіталу</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="ccc-example"><strong>CCC = 120 днів</strong> означає: від моменту оплати постачальнику до отримання грошей від клієнта проходить 4 місяці. Гроші «заморожені» в операційному циклі. <strong>CCC = −14 днів</strong> (як у деяких ритейлерів): компанія отримує гроші на 14 днів раніше, ніж платить постачальникам — вона фактично працює на чужих грошах.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="ccc-actions">
+                            <li>Визначити «вузьке місце» — що найдовше: DSO (дебіторка), DIO (запаси) чи DPO (кредиторка)</li>
+                            <li>Оцінити потребу в зовнішньому фінансуванні (кредитні лінії)</li>
+                            <li>Скоротити відстрочку клієнту пропорційно його CCC</li>
+                            <li>Порівняти з галузевими бенчмарками (CCC Ford = 261 дн, Amazon = негативний)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card" style="border-left: 4px solid var(--accent);">
+                    <h3>DSO / DPO Ratio <span id="dsodpo-subtitle">(Індекс кредитного балансу)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="dsodpo-formula">DSO / DPO</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="dsodpo-meaning">Хто кого кредитує: компанія своїх клієнтів чи постачальники компанію. Ідеально, коли збираємо гроші швидше, ніж платимо.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 1.0</span>
+                            <span class="scale-label" id="dsodpo-green">Ідеально — збираємо швидше, ніж платимо</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1.0–1.5</span>
+                            <span class="scale-label" id="dsodpo-yellow">Прийнятно — баланс із незначним перекосом</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 1.5</span>
+                            <span class="scale-label" id="dsodpo-red">Критично — фінансуємо клієнтів за свій рахунок</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="dsodpo-example">DSO = 90 дн, DPO = 45 дн → Ratio = 2.0. Компанія чекає на гроші від клієнтів удвічі довше, ніж платить постачальникам. Касовий розрив фінансується з власних ресурсів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="dsodpo-actions">
+                            <li>При Ratio > 1.5 — скоротити відстрочку клієнту</li>
+                            <li>Оцінити потребу у зовнішньому фінансуванні</li>
+                            <li>Перевірити наявність овердрафту або кредитної лінії</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== PROFITABILITY ==================== -->
+            <div class="page" id="page-profitability">
+                <div class="page-header">
+                    <h2>📊 <span id="title-profitability">Рентабельність</span></h2>
+                    <p id="desc-profitability"><strong>Рентабельність</strong> (від нім. <em>rentabel</em> — «прибутковий») — відносний показник прибутковості, що характеризує ефективність господарської діяльності. Показує, скільки прибутку отримано з кожної гривні витрат, виручки або вкладеного капіталу.</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        💡 <strong>Перевага відносного показника:</strong> На відміну від абсолютного прибутку, рентабельність дозволяє порівнювати компанії різного масштабу. Компанія з прибутком 1 млн грн і ROS 10% ефективніша за компанію з прибутком 5 млн грн і ROS 2%.
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(234, 179, 8, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        🏭 <strong>Галузева специфіка:</strong> ROS значно варіюється по галузях. Для ритейлу ROS 2-3% — норма, для IT-послуг очікується 15%+.
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>ROS <span id="ros-subtitle">(Return on Sales — Рентабельність продажів)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="ros-formula">Чистий прибуток (2350) / Виручка (2000) × 100%<br><small style="color: var(--text-secondary);">Альтернативи: з операційного прибутку (EBIT), з валового прибутку</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="ros-meaning"><strong>Один з найважливіших показників ефективності.</strong> Яку суму прибутку одержує підприємство з кожної гривні проданої продукції. Іншими словами — скільки залишається після покриття собівартості. Характеризує найважливіший аспект діяльності — реалізацію основної продукції.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">ROS — відносний показник (на відміну від абсолютного прибутку), тому дозволяє порівнювати компанії різного масштабу. <strong>Чим вищий ROS — тим прибутковіший бізнес.</strong> Коефіцієнт > 0 означає окупність вкладень. Важливо відстежувати в динаміці та порівнювати з галузевим стандартом.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">> 15%</span>
+                            <span class="scale-label">Відмінно — висока рентабельність (IT, консалтинг)</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">5–15%</span>
+                            <span class="scale-label" id="ros-green">Здорова маржа — є запас міцності</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">2–5%</span>
+                            <span class="scale-label" id="ros-yellow">Низька маржа — норма для ритейлу, ризик для інших</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 2%</span>
+                            <span class="scale-label" id="ros-red">Критично — на межі збитковості</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="ros-example"><strong>ROS = 20%</strong> означає: кожна гривня продажів принесла 20 копійок чистого прибутку — це високий показник ефективного управління витратами. <strong>ROS = 2%</strong> означає: «запас міцності» бізнесу лише 2 копійки з гривні — коливання цін на 3–5% робить діяльність збитковою.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="ros-actions">
+                            <li>Порівняти з галузевим стандартом (ритейл 2-3%, IT 15%+)</li>
+                            <li>Відстежити динаміку ROS за кілька періодів</li>
+                            <li>Запитати структуру витрат — операційні, фінансові, маркетингові</li>
+                            <li>При низькому ROS — вимагати забезпечення або передоплату</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>ROA <span id="roa-subtitle">(Return on Assets — Рентабельність активів)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="roa-formula">Чистий прибуток (2350) / Середня вартість активів (1300) × 100%<br><small style="color: var(--text-secondary);">Середні активи = (Активи на початок + Активи на кінець періоду) / 2</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="roa-meaning">Ефективність використання <strong>всіх активів</strong> компанії для генерації прибутку. Показує, скільки копійок чистого прибутку приносить кожна гривня, вкладена в активи. <strong>Індикатор якості управління активами</strong> — наскільки раціонально менеджмент розподіляє ресурси.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">ROA враховує <strong>всі активи</strong>, включаючи профінансовані позиковим капіталом (на відміну від ROE). Корисний для порівняння компаній однієї галузі незалежно від структури капіталу. <strong>Галузева специфіка:</strong> для капіталомістких галузей (залізниця, енергетика) ROA буде нижчим, для сфери послуг — вищим.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔗 <span class="label-related">Зв'язок з ROE (модель Дюпона)</span></div>
+                        <p class="meaning-text"><strong>ROE = ROA × (Активи / Власний капітал)</strong>. Якщо ROE >> ROA — компанія активно використовує фінансовий леверидж (працює на позикових коштах). <strong>Застереження:</strong> надто високий ROA може свідчити, що компанія не інвестує в оновлення активів — це гальмує розвиток у довгостроковій перспективі.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">> 20%</span>
+                            <span class="scale-label">Відмінно — високоефективне використання активів</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">5–20%</span>
+                            <span class="scale-label" id="roa-green">Добре — активи ефективно генерують прибуток</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1–5%</span>
+                            <span class="scale-label" id="roa-yellow">Задовільно — середня віддача активів</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 1%</span>
+                            <span class="scale-label" id="roa-red">Критично — активи «сплять», неефективне управління</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="roa-example"><strong>Компанія А:</strong> активи 50 млн грн, прибуток 10 млн → ROA = 20%. <strong>Компанія Б:</strong> активи 100 млн грн, прибуток 10 млн → ROA = 10%. Компанія А ефективніше конвертує інвестиції в прибуток — менше вкладень для того самого результату.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="roa-actions">
+                            <li>Порівняти з галузевими бенчмарками (оптимум 8–12%)</li>
+                            <li>Перевірити наявність «мертвих» активів (невикористовуване майно)</li>
+                            <li>Оцінити динаміку: якщо активи ростуть, а ROA падає — розширення неефективне</li>
+                            <li>Порівняти ROA з ROE для оцінки фінансового левериджу</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="opm-title">Операційна маржа <span id="opm-subtitle">(Operating Margin / EBIT Margin)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="opm-formula">Операційний прибуток (2190) / Виручка (2000) × 100%<br><small style="color: var(--text-secondary);">EBIT = Чистий прибуток + Податок на прибуток + Відсотки сплачені</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="opm-meaning"><strong>Операційний прибуток (EBIT)</strong> — аналітичний показник, що дорівнює обсягу прибутку до вирахування відсотків за позиковими коштами і сплати податків. Показує скільки грошей залишається від продажу після вирахування собівартості та всіх витрат на підтримку функціонування бізнесу (оренда, зарплати, реклама).</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-hierarchy">Ієрархія прибутків</span></div>
+                        <p class="meaning-text" style="font-family: monospace; font-size: 0.9em;">
+                            <strong>Виручка</strong> − Собівартість = <strong>Валовий прибуток</strong><br>
+                            − Постійні витрати (оренда, зарплати, реклама) = <strong>Операційний прибуток (EBIT)</strong><br>
+                            − Відсотки по кредитах + Інші доходи/витрати = <strong>Прибуток до оподаткування</strong><br>
+                            − Податки = <strong>Чистий прибуток</strong>
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">Характеризує ефективність <strong>основної діяльності</strong> компанії без впливу структури капіталу та податкового навантаження. Дозволяє порівнювати компанії з різним рівнем боргу. <strong>Вища маржа = менший фінансовий ризик</strong> та краща здатність оплатити фіксовані витрати. Споріднений показник <strong>EBITDA</strong> = EBIT + Амортизація (ставить компанії в однакові умови).</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">> 20%</span>
+                            <span class="scale-label">Відмінно — дуже сильна операційна модель</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">10–20%</span>
+                            <span class="scale-label" id="opm-green">Сильна операційна модель — низький фінансовий ризик</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">5–10%</span>
+                            <span class="scale-label" id="opm-yellow">Задовільна ефективність — потребує контролю</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 5%</span>
+                            <span class="scale-label" id="opm-red">Слабка операційна модель — високий ризик</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="opm-example"><strong>Операційна маржа 15%, але ROS лише 2%</strong> означає: основний бізнес ефективний, але прибуток «з'їдають» відсотки по кредитах. Компанія може мати проблеми з обслуговуванням боргу. <strong>Операційна маржа = ROS</strong> означає: компанія працює без боргів або з мінімальними відсотками.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="opm-actions">
+                            <li>Порівняти з ROS — велика різниця = великий борговий тягар (відсотки «з'їдають» прибуток)</li>
+                            <li>Розрахувати EBITDA = EBIT + Амортизація — для оцінки грошового потоку</li>
+                            <li>Перевірити Interest Coverage Ratio (покриття відсотків) — чи вистачає EBIT на обслуговування боргу</li>
+                            <li>Відстежити динаміку — зростання маржі = покращення операційної ефективності</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>ROE <span id="roe-subtitle">(Return on Equity — Рентабельність власного капіталу)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="roe-formula">Чистий прибуток (2350) / Середньорічний власний капітал (1495) × 100%<br><small style="color: var(--text-secondary);">Власний капітал = (на початок + на кінець періоду) / 2</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="roe-meaning"><strong>Найважливіший показник для власників (акціонерів).</strong> Яка віддача (норма прибутку) на вкладений власний капітал. Скільки копійок чистого прибутку принесла кожна гривня, вкладена власником у бізнес. <strong>Максимізація ROE — ключове завдання для управлінців.</strong></p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">ROE можна порівняти з <strong>прибутковістю банківських вкладів або ОВДП</strong>. Якщо депозит дає 15% річних, а ROE бізнесу лише 5% — інвестування в бізнес невигідне. Стійке зростання ROE в динаміці приваблює інвесторів і свідчить про здатність компанії генерувати прибуток.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green" style="background: rgba(59, 130, 246, 0.15);">
+                            <span class="scale-dot" style="background: var(--accent);"></span>
+                            <span class="scale-threshold">> 20%</span>
+                            <span class="scale-label">Відмінно — висока віддача для акціонерів</span>
+                        </div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">10–20%</span>
+                            <span class="scale-label" id="roe-green">Норма для розвинених економік (10-12%)</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">5–10%</span>
+                            <span class="scale-label" id="roe-yellow">Низька віддача — на рівні депозитів</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 5%</span>
+                            <span class="scale-label" id="roe-red">Критично — депозит вигідніший за бізнес</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="roe-example"><strong>ROE = 20%</strong> означає: кожна гривня власного капіталу принесла 20 копійок чистого прибутку — це вище за банківські депозити, вкладення вигідні. <strong>ROE = 3%</strong> означає: бізнес неефективний, депозит під 15% річних був би вигіднішим для власників.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔗 <span class="label-related">Модель Дюпона</span></div>
+                        <p class="meaning-text">ROE = ROS × Оборотність активів × Фінансовий леверидж. Дозволяє проаналізувати, за рахунок чого формується рентабельність: операційної ефективності, ефективності використання активів чи структури капіталу.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="roe-actions">
+                            <li>Порівняти з ROA — якщо ROE >> ROA, компанія активно використовує фінансовий леверидж</li>
+                            <li>Порівняти з альтернативною дохідністю (депозити 15%, ОВДП)</li>
+                            <li>Оцінити динаміку ROE за 3-5 років — зростання = позитивний сигнал</li>
+                            <li>Високий ROE при низькому власному капіталі = високі фінансові ризики</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== CAPITAL STRUCTURE ==================== -->
+            <div class="page" id="page-capital">
+                <div class="page-header">
+                    <h2>🏛️ <span id="title-capital">Структура капіталу</span></h2>
+                    <p id="desc-capital"><strong>Структура капіталу</strong> — це сукупність фінансових засобів організації з різних джерел довгострокового фінансування. Капітал поділяється на <em>власний</em> (внесений засновниками або накопичений) та <em>позиковий</em> (кредити, позики, зобов'язання).</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        📋 <strong>Складові власного капіталу (р. 1495):</strong> Статутний капітал (внески засновників) + Додатковий капітал (емісійний дохід, дооцінка) + Резервний капітал + Нерозподілений прибуток (накопичений результат).
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(34, 197, 94, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        🛡️ <strong>Захисна функція:</strong> Чим більший власний капітал — тим краще захищене підприємство від банкрутства. Збитки покриваються саме з власного капіталу. Якщо він від'ємний — кредитори ризикують втратити все.
+                    </div>
+                    <div style="margin-top: 8px; padding: 10px 14px; background: rgba(234, 179, 8, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        ⚠️ <strong>Галузева специфіка:</strong> Для банків та лізингових компаній низький Equity Ratio — норма бізнес-моделі. Для виробництва Equity < 30% = підвищений ризик.
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Equity Ratio <span id="equity-subtitle">(Коефіцієнт власного капіталу / фінансової незалежності)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="equity-formula">Власний капітал (1495) / Загальна вартість активів (1300)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="equity-meaning"><strong>Індикатор фінансової незалежності:</strong> Відповідає на питання «Яка частина активів компанії належить власникам (акціонерам)?». Чим він вищий — тим менша залежність від кредиторів і нижчий ризик неплатоспроможності. Власний капітал виконує три ключові функції: <strong>гарантійна</strong> (забезпечення для кредиторів), <strong>захисна</strong> (покриття збитків), <strong>база для дивідендів</strong>.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Інтерпретація</span></div>
+                        <p class="meaning-text"><strong>Високе значення:</strong> Компанія фінансується переважно власними коштами, має низькі фінансові ризики та високу платоспроможність.<br><strong>Низьке значення:</strong> Висока залежність від зовнішніх позик, високий фінансовий ризик та потенційна небезпека дефіциту коштів.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔗 <span class="label-related">Зв'язок з Debt Ratio</span></div>
+                        <p class="meaning-text">Сума <strong>Equity Ratio + Debt Ratio = 100%</strong>, оскільки ці дві частки покривають усі активи компанії. Якщо Equity = 30%, то Debt = 70%.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">≥ 50%</span>
+                            <span class="scale-label" id="equity-green">Фінансова незалежність — власники контролюють більшість активів</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">20–50%</span>
+                            <span class="scale-label" id="equity-yellow">Помірна залежність від кредиторів</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 20%</span>
+                            <span class="scale-label" id="equity-red">Критична залежність — високий ризик неплатоспроможності</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="equity-example">Equity Ratio = 15% означає: лише 15% активів фінансуються власними коштами, 85% — позиковими. Компанія має високу залежність від зовнішніх позик. При банкрутстві кредитори забирають майже все, власникам залишається мінімум.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="equity-actions">
+                            <li>Оцінити пріоритетність вашої черги серед кредиторів</li>
+                            <li>Вимагати заставу або поруку від бенефіціара</li>
+                            <li>Скоротити відстрочку до мінімуму або передоплата</li>
+                            <li>Порівняти з Debt Ratio для повної картини структури капіталу</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Gearing Ratio <span id="gearing-subtitle">(Борг / Капітал)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="gearing-formula">(Довгострокові (1595) + Поточні (1695)) / Власний капітал (1495)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="gearing-meaning">У скільки разів загальні борги перевищують власний капітал. Показує <strong>фінансовий леверидж (важіль)</strong> — використання позикового капіталу для збільшення прибутковості власного. Працює в обидва боки: при прибутку — підсилює дохід власників, при збитку — підсилює втрати.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 1.0</span>
+                            <span class="scale-label" id="gearing-green">Низьке плече — консервативна модель</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1.0–2.0</span>
+                            <span class="scale-label" id="gearing-yellow">Помірне плече — збалансовано</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 2.0</span>
+                            <span class="scale-label" id="gearing-red">Високе плече — ризик неплатоспроможності</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="gearing-example">Gearing = 3.0 означає: борги втричі перевищують власний капітал. Компанія залежить від волі кредиторів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="gearing-actions">
+                            <li>Тільки передоплата або гарантія</li>
+                            <li>Уникати довгострокових відстрочок</li>
+                            <li>Моніторити зміни в структурі боргу</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="netassets-title">Чисті активи (Власний капітал)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="netassets-formula">Активи (1300) − Зобов'язання (1595 + 1695)</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="netassets-meaning">Вартість компанії, що залишиться власникам після погашення ВСІХ боргів.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 0</span>
+                            <span class="scale-label" id="netassets-green">Позитивний — компанія платоспроможна</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 0</span>
+                            <span class="scale-label" id="netassets-red">Від'ємний — технічне банкрутство</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="netassets-example">Від'ємні чисті активи (−10 млн грн) означає: борги перевищують вартість всього майна. Компанія технічно банкрут.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="netassets-actions">
+                            <li>КАТЕГОРИЧНО тільки передоплата</li>
+                            <li>Уникати будь-яких відвантажень у борг</li>
+                            <li>Вимагати поруку від бенефіціара</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="charter-title">Статутний капітал <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(Authorized Capital)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Визначення</span></div>
+                        <div class="formula-box" id="charter-formula"><strong>Рядок 1400 Балансу</strong> (Зареєстрований капітал)<br><small style="color: var(--text-secondary);">Сума вкладів, які учасники погодилися внести при створенні товариства. Виражається виключно у грошовій формі в національній валюті.</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="charter-meaning"><strong>«Грошовий фундамент» компанії</strong> — гарантія виконання зобов'язань перед клієнтами та кредиторами. Не плутати зі стартовим капіталом! СК визначає межу відповідальності власників та розподіл часток між учасниками. Якщо чисті активи падають нижче СК — товариство <strong>зобов'язане зменшити</strong> статутний капітал.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Як формується</span></div>
+                        <p class="meaning-text" style="font-size: 0.9em;">
+                            <strong>Способи формування:</strong> грошовий (готівка/безготівка) | майновий (обладнання, нерухомість, цінні папери, права на ІВ) | змішаний<br>
+                            <strong>Мінімальні вимоги:</strong> АТ — 200 мін. зарплат | Банки — від 200 млн грн | Фінкомпанії — 3.5-10 млн грн | Страхові — 1-10 млн євро<br>
+                            <strong>Для ТОВ/ТДВ/ФОП:</strong> мінімальний розмір <em>не регламентований</em> законодавством
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-risk">Ознаки ризику (НБУ)</span></div>
+                        <p class="meaning-text" style="font-size: 0.9em; color: var(--warning);">
+                            • <strong>Несформований СК</strong> — ознака «компанії-оболонки»<br>
+                            • <strong>Замалий СК</strong> — ризик фінансових проблем, відмови у кредитуванні<br>
+                            • <strong>Непропорційний СК</strong> — видобуток вугілля з СК 3000 грн = явна невідповідність
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">Пропорційний масштабу</span>
+                            <span class="scale-label" id="charter-green">Власники несуть реальний ризик — надійніший партнер</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1000 - 100 000 грн</span>
+                            <span class="scale-label" id="charter-yellow">Типовий для малого бізнесу — потребує додаткових гарантій</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">Мінімальний (1000 грн)</span>
+                            <span class="scale-label" id="charter-red">Обмежена відповідальність — максимальні ризики для вас</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="charter-example"><strong>СК = 1000 грн при виручці 100 млн грн</strong> — у разі банкрутства власники ризикують лише 1000 грн, а ви — всією дебіторкою. <strong>Перевірка у <a href="https://youcontrol.com.ua" target="_blank" style="color: #3b82f6;">YouControl</a>:</strong> Огляд досьє → Анкета → Статутний капітал. Також див. вкладку «Учасники та бенефіціари» для часток.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="charter-actions">
+                            <li>Порівняти СК з масштабом діяльності (виручка, активи)</li>
+                            <li>Перевірити чи сформований СК повністю (не частково)</li>
+                            <li>Перевірити дату останньої зміни — різке збільшення перед тендером = ознака «пустушки»</li>
+                            <li>При мінімальному СК — вимагати поруку від реального власника або банківську гарантію</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="golden-finance-title">Золоте правило фінансування <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(Golden Rule of Financing)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формули</span></div>
+                        <div class="formula-box" id="golden-finance-formula">
+                            <strong>Умова 1:</strong> Необоротні активи (1095) / [ВК (1495) + Довгостр. зобов. (1595)] <strong>≤ 1</strong><br>
+                            <strong>Умова 2:</strong> Оборотні активи (1195) / Поточні зобов'язання (1695) <strong>≥ 1</strong> <em>(= Current Ratio)</em>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="golden-finance-meaning"><strong>Узгодженість строків фінансування.</strong> Терміни мобілізації ресурсів мають збігатися зі строками їх вкладення в активи. Довгострокові активи → фінансуються довгостроковим капіталом. Також називають <em>«золотим банківським правилом»</em> або <em>«правилом конгруентності строків»</em>.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">Дотримання правила <strong>забезпечує стабільну ліквідність і платоспроможність</strong>. Порушення = компанія фінансує довгострокові активи короткостроковими кредитами — ризик кризи при настанні строків погашення.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">Обидві умови ✓</span>
+                            <span class="scale-label" id="golden-finance-green">Фінансова рівновага — стабільна структура</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">Одна умова ✗</span>
+                            <span class="scale-label" id="golden-finance-yellow">Дисбаланс — потребує уваги</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">Обидві умови ✗</span>
+                            <span class="scale-label" id="golden-finance-red">Критичний дисбаланс — ризик кризи ліквідності</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="golden-finance-example"><strong>Умова 1 = 0.85</strong> — ✅ необоротні активи покриті довгостроковим капіталом із запасом 15%. <strong>Умова 1 = 1.3</strong> — ❌ 30% необоротних активів фінансуються короткостроковими кредитами — ризик!</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="golden-finance-actions">
+                            <li>Перевіряти разом з Current Ratio (Умова 2 = CR ≥ 1)</li>
+                            <li>При порушенні — оцінити можливість рефінансування на довший строк</li>
+                            <li>Для капіталомістких галузей (виробництво) — критично важливе</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== RISK INDICATORS ==================== -->
+            <div class="page" id="page-risk">
+                <div class="page-header">
+                    <h2>⚠️ <span id="title-risk">Ризик-індикатори</span></h2>
+                    <p id="desc-risk">Специфічні показники, що сигналізують про приховані проблеми</p>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="r1155-title">Частка рядка 1155 (Інша дебіторська заборгованість)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="r1155-formula">Інша дебіторка (1155) / Активи (1300) × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="r1155-meaning">Частка активів у «непрозорій» дебіторці — може включати позики пов'язаним особам, безнадійні борги.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 15%</span>
+                            <span class="scale-label" id="r1155-green">Норма — незначна частка</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">15–30%</span>
+                            <span class="scale-label" id="r1155-yellow">Підвищена — потребує уваги</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 30%</span>
+                            <span class="scale-label" id="r1155-red">Критична — ризик «мертвих» активів</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="r1155-example">Частка 1155 = 40% означає: майже половина активів — це «інша дебіторка». Реальна платоспроможність може бути значно нижчою.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="r1155-actions">
+                            <li>Запитати розшифровку рядка 1155</li>
+                            <li>Оцінити ліквідність цих активів</li>
+                            <li>Ігнорувати 1155 при розрахунку платоспроможності</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="r1690-title">Частка рядка 1690 (Інші поточні зобов'язання)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="r1690-formula">Інші поточні зобов'язання (1690) / Поточні зобов'язання (1695) × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="r1690-meaning">Частка «непрозорих» боргів у структурі зобов'язань. Може включати внутрішньогрупові позики, штрафи.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 30%</span>
+                            <span class="scale-label" id="r1690-green">Норма — прозора структура</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">30–50%</span>
+                            <span class="scale-label" id="r1690-yellow">Підвищена — потребує розшифровки</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 50%</span>
+                            <span class="scale-label" id="r1690-red">Критична — приховані борги</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="r1690-example">Частка 1690 = 70% означає: більшість зобов'язань — «інші». Структура боргів непрозора.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="r1690-actions">
+                            <li>Запитати розшифровку рядка 1690</li>
+                            <li>Перевірити наявність отриманих авансів</li>
+                            <li>Оцінити ризик прихованих позик</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="tax-title">Податкова заборгованість <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(рядок 1620, Податковий борг)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Визначення (пп. 14.1.175 ПКУ)</span></div>
+                        <div class="formula-box" id="tax-formula"><strong>Податковий борг</strong> — сума узгодженого грошового зобов'язання, не сплаченого платником у встановлений строк, + непогашена пеня та штрафні санкції. Виникає з наступного дня після граничного терміну сплати.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="tax-meaning"><strong>Критичний індикатор платоспроможності.</strong> Несплачені податки = прострочені обов'язки перед державою. Податковий борг є безумовним і першочерговим стосовно інших зобов'язань платника (ст. 36 ПКУ). <em>Важливо:</em> ЄСВ не входить до податкового боргу — це окрема «недоїмка».</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-consequences">Наслідки податкового боргу</span></div>
+                        <p class="meaning-text">
+                            • <strong>Штраф + пеня</strong> за несвоєчасну сплату<br>
+                            • <strong>Податкова застава</strong> на майно (при боргу > 3060 грн)<br>
+                            • <strong>Блокування рахунків</strong> та примусове стягнення коштів<br>
+                            • <strong>Примусова реалізація</strong> майна боржника<br>
+                            • <strong>Анулювання статусу</strong> платника Єдиного податку<br>
+                            • <strong>Обмеження виїзду</strong> за кордон для ФОП та посадових осіб
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">0 або < 1% виручки</span>
+                            <span class="scale-label" id="tax-green">Норма — поточні платежі без прострочень</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">1–5% виручки</span>
+                            <span class="scale-label" id="tax-yellow">Ризик — можливі затримки з оплатою вам</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 3060 грн (порогове значення)</span>
+                            <span class="scale-label" id="tax-red">Критично — податкова застава, блокування рахунків</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="tax-example"><strong>Податковий борг = 8 млн грн</strong> означає: високий ризик блокування рахунків, зупинки реєстрації податкових накладних, арешту майна. Ваші гроші можуть «застрягти» — контрагент не зможе оплатити рахунок. Перевірити борг можна на сайті ДПС або через <a href="https://youcontrol.com.ua" target="_blank" style="color: #3b82f6;">YouControl</a>/Opendatabot.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="tax-actions">
+                            <li>Перевірити наявність боргу через сервіс ДПС «Дізнайся більше про бізнес-партнера»</li>
+                            <li>Запитати про статус розстрочення/відстрочення боргу</li>
+                            <li>Оцінити ризик арешту рахунків та зупинки операцій</li>
+                            <li>При наявності боргу — тільки передоплата або банківська гарантія</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="salary-title">Заборгованість з оплати праці (рядок 1630)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="salary-formula">Заборгованість з оплати праці (1630) / Виручка (2000) × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="salary-meaning">Несплачені зарплати працівникам. НАЙВИЩИЙ маркер неплатоспроможності.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 1% виручки</span>
+                            <span class="scale-label" id="salary-green">Норма — поточні нарахування</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 3% виручки</span>
+                            <span class="scale-label" id="salary-red">КРИТИЧНО — компанія не платить зарплати</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="salary-example">Борг із зарплат = 5% виручки означає: компанія систематично не платить працівникам. Ваша дебіторка буде ОСТАННЬОЮ.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="salary-actions">
+                            <li>КАТЕГОРИЧНО тільки передоплата</li>
+                            <li>Високий ризик блокування рахунків Держпраці</li>
+                            <li>Уникати будь-яких відвантажень у борг</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Interest Coverage <span id="icr-subtitle">(Покриття відсотків)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="icr-formula">Фінансові витрати (2250) / Операційний прибуток (2190) × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="icr-meaning">Яка частка операційного прибутку йде на обслуговування кредитів (відсотки).</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 30%</span>
+                            <span class="scale-label" id="icr-green">Норма — прибуток працює на бізнес</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">30–50%</span>
+                            <span class="scale-label" id="icr-yellow">Підвищена — значний тягар</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 50%</span>
+                            <span class="scale-label" id="icr-red">Критична — бізнес працює на банк</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="icr-example">Interest Coverage = 60% означає: 60% операційного прибутку йде на відсотки банку.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="icr-actions">
+                            <li>Оцінити ризик зростання ставок</li>
+                            <li>Перевірити графік погашення кредитів</li>
+                            <li>Вимагати забезпечення</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>Net Debt / Revenue <span id="ndr-subtitle">(Чистий борг до виручки)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="ndr-formula">(Загальні зобов'язання − Гроші) / Виручка × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="ndr-meaning">Співвідношення чистого боргу до річної виручки. Скільки років потрібно для погашення боргу.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 20%</span>
+                            <span class="scale-label" id="ndr-green">Низьке навантаження</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">20–40%</span>
+                            <span class="scale-label" id="ndr-yellow">Помірне навантаження</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 40%</span>
+                            <span class="scale-label" id="ndr-red">Критичне перекредитування</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="ndr-example">Net Debt / Revenue = 50% означає: чистий борг = половина річної виручки. Компанія в режимі постійного рефінансування.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="ndr-actions">
+                            <li>Перевірити доступність кредитних ліній</li>
+                            <li>Оцінити залежність від банків</li>
+                            <li>Скоротити відстрочку</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== COOPERATION TERMS ==================== -->
+            <div class="page" id="page-terms">
+                <div class="page-header">
+                    <h2>💼 <span id="title-terms">Умови співпраці</span></h2>
+                    <p id="desc-terms">Параметри <strong>товарного кредиту</strong> — кредитний ліміт та відстрочка платежу для контрагентів у B2B-торгівлі</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        💡 <strong>Товарний кредит</strong> — це відстрочка платежу, яку постачальник надає покупцю. На відміну від банківського кредиту, тут кредитором виступає ваша компанія, а позичальником — контрагент.
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="limit-title">Кредитний ліміт <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(на контрагента)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="limit-formula">Виручка × k × (1 − AR_share) × модифікатори<br><small style="color: var(--text-secondary);">k — галузевий коефіцієнт, AR_share — частка дебіторки</small></div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="limit-meaning"><strong>Максимальна сума товарного кредиту</strong> (відвантажень у борг) на одного контрагента, яку ваша компанія готова надати без додаткового узгодження. Аналог банківського кредитного ліміту, але в B2B-торгівлі. Це «стеля» ризику концентрації на одному клієнті.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Як встановлюється</span></div>
+                        <p class="meaning-text">Індивідуально для кожного контрагента на основі: фінансового стану (ліквідність, рентабельність), історії співпраці (своєчасність оплат), частки в загальній дебіторці. Переглядається щоквартально або при суттєвих змінах фінансового стану контрагента.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 80% ліміту</span>
+                            <span class="scale-label" id="limit-green">Контрольований ризик — є запас для маневру</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">80–100% ліміту</span>
+                            <span class="scale-label">Наближення до межі — потрібен контроль</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">Перевищення</span>
+                            <span class="scale-label" id="limit-red">Неконтрольований ризик — СТОП відвантаження</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="limit-example"><strong>Ліміт = 500 000 грн</strong> означає: максимальна сума всіх неоплачених відвантажень цьому контрагенту. Якщо поточна дебіторка 450 000 грн — можна відвантажити ще на 50 000 грн. Перевищення ліміту створює ризик втрати значної частки виручки при дефолті клієнта.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="limit-actions">
+                            <li>Контролювати загальну дебіторку по клієнту в реальному часі</li>
+                            <li>Не відвантажувати понад ліміт без додаткового забезпечення</li>
+                            <li>Переглядати ліміт щоквартально на основі фінансової звітності</li>
+                            <li>При погіршенні показників контрагента — знижувати ліміт превентивно</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="deferral-title">Відстрочка платежу <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(Payment Deferral)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Визначення</span></div>
+                        <div class="formula-box" id="deferral-formula">Умова договору, за якою покупець отримує товар/послугу зараз, а оплачує пізніше — у визначений строк, одноразово, зазвичай без нарахування відсотків</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="deferral-meaning">Максимальна кількість днів від відвантаження до обов'язкової оплати. Це спосіб відтермінувати фінансове навантаження покупця. Типові терміни в B2B: <strong>30, 60, 90 днів</strong>. Умови фіксуються в договорі або додатковій угоді.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Відмінність від розстрочки</span></div>
+                        <p class="meaning-text"><strong>Відстрочка</strong> — відкладення одного платежу на визначений термін, зазвичай без відсотків. <strong>Розстрочка</strong> — подрібнення суми на багато платежів, часто з відсотками. При відстрочці можуть бути штрафи за прострочення.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Рекомендована відстрочка (за рівнем AR_share)</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">L1 (AR < 15%)</span>
+                            <span class="scale-label" id="deferral-green">до 30 днів — надійний контрагент</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">L2–L3 (15–45%)</span>
+                            <span class="scale-label" id="deferral-yellow">10–20 днів — помірний ризик, контроль</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">L4–L5 (> 45%)</span>
+                            <span class="scale-label" id="deferral-red">0–5 днів або 100% передоплата</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="deferral-example"><strong>Відстрочка 30 днів:</strong> Компанія А постачає товар компанії Б сьогодні. Компанія Б оплачує рахунок через 30 днів одним платежем. Якщо AR_share компанії Б > 45% — вона вже закредитована, і ви ризикуєте стати в чергу кредиторів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="deferral-actions">
+                            <li>Встановлювати відстрочку відповідно до рівня AR_share контрагента</li>
+                            <li>Фіксувати умови в договорі + штрафи за прострочення</li>
+                            <li>При порушенні термінів — переводити на передоплату</li>
+                            <li>Моніторити зміни AR_share щоквартально</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3>AR_share <span id="arshare-subtitle">(Частка дебіторки у виручці)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="arshare-formula">(Дебіторка 1125 + 1155) / Виручка (2000) × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="arshare-meaning">Яку частку виручки контрагент «заморозив» у дебіторській заборгованості. Рівень закредитованості.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">< 15% (L1)</span>
+                            <span class="scale-label" id="arshare-green">Низька — працює на передоплаті</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">15–45% (L2–L3)</span>
+                            <span class="scale-label" id="arshare-yellow">Помірна — стандартний рівень</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">> 45% (L4–L5)</span>
+                            <span class="scale-label" id="arshare-red">Висока — кредитує всіх</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="arshare-example">AR_share = 60% означає: більше половини виручки «застрягло» у дебіторах. Компанія масово кредитує клієнтів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="arshare-actions">
+                            <li>Мінімізувати або виключити відстрочку</li>
+                            <li>Вимагати забезпечення</li>
+                            <li>Передоплата — оптимальний варіант</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== DYNAMICS ==================== -->
+            <div class="page" id="page-dynamics">
+                <div class="page-header">
+                    <h2>📈 <span id="title-dynamics">Динаміка</span></h2>
+                    <p id="desc-dynamics">Аналіз змін показників у часі — тренди та прогнози</p>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: rgba(234, 179, 8, 0.1); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                        💡 <strong>Врахування інфляції:</strong> В умовах інфляції 15%+ номінальний ріст ТВ=105% означає реальне падіння обсягів продажів. Порівнюйте темпи росту з офіційним індексом споживчих цін (ІСЦ).
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="golden-title">Золоте правило економіки <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(Golden Rule of Economics)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула (повна версія)</span></div>
+                        <div class="formula-box" id="golden-formula">
+                            <strong>ТП > ТВ > ТВК > ТА > 100%</strong><br>
+                            <small style="color: var(--text-secondary);">Темп Прибутку > Темп Виручки > Темп Власного Капіталу > Темп Активів > 100%</small>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="golden-meaning"><strong>Ефективність управління та ділову активність.</strong> Показники мають зростати в такій послідовності для забезпечення розвитку та стабільності підприємства. Виконання правила свідчить про фінансове здоров'я компанії.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Що означає кожна нерівність</span></div>
+                        <p class="meaning-text" style="font-size: 0.9em;">
+                            • <strong>ТП > ТВ</strong> — прибуток росте швидше виручки → зниження витрат, підвищення маржі<br>
+                            • <strong>ТВ > ТВК</strong> — виручка росте швидше капіталу → ефективне використання власних коштів<br>
+                            • <strong>ТВК > ТА</strong> — капітал росте швидше активів → зміцнення фінансової незалежності<br>
+                            • <strong>ТА > 100%</strong> — загальне зростання потенціалу компанії
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔗 <span class="label-related">Зв'язок з Золотим правилом фінансування</span></div>
+                        <p class="meaning-text"><strong>Два правила доповнюють одне одного:</strong> «Правило економіки» — про ефективність зростання (прибуток випереджає виручку). «Правило фінансування» — про узгодженість строків (довгострокові активи = довгострокові джерела). Разом характеризують здоров'я компанії.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">Всі нерівності ✓</span>
+                            <span class="scale-label" id="golden-green">Ідеально — ефективне збалансоване зростання</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">Часткове виконання</span>
+                            <span class="scale-label" id="golden-yellow">Є проблеми — аналізувати яка нерівність порушена</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">Не виконується / ТА < 100%</span>
+                            <span class="scale-label" id="golden-red">Неефективна модель — компанія «проїдає» ресурси</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="golden-example"><strong>✅ ТП=130% > ТВ=115% > ТВК=110% > ТА=105%</strong> — ідеально: прибуток росте найшвидше, активи зростають повільніше всього.<br><strong>❌ ТП=80%, ТВ=110%, ТА=120%</strong> — прибуток падає при зростанні виручки та активів = неефективне розширення, витрати «з'їдають» маржу.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="golden-actions">
+                            <li>Визначити яка саме нерівність порушена — там і проблема</li>
+                            <li>ТП < ТВ → аналізувати витрати та маржинальність</li>
+                            <li>ТА > ТВ → активи зростають без віддачі, перевірити ефективність інвестицій</li>
+                            <li>Оцінювати разом з Золотим правилом фінансування</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="tp-title">ТП (Темп прибутку)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="tp-formula">Прибуток поточного / Прибуток минулого × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="tp-meaning">Динаміка чистого прибутку. Показує, чи зростає ефективність бізнесу.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 100%</span>
+                            <span class="scale-label" id="tp-green">Зростання прибутку</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">90–100%</span>
+                            <span class="scale-label" id="tp-yellow">Стагнація</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 90%</span>
+                            <span class="scale-label" id="tp-red">Падіння прибутковості</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="tp-example">ТП = 70% означає: прибуток скоротився на 30%. Ефективність падає.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="tp-actions">
+                            <li>З'ясувати причини падіння</li>
+                            <li>Оцінити стійкість тренду</li>
+                            <li>Переглянути умови співпраці</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="tv-title">ТВ (Темп виручки)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="tv-formula">Виручка поточного / Виручка минулого × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="tv-meaning">Динаміка продажів. Показує, чи росте бізнес у масштабі.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 100%</span>
+                            <span class="scale-label" id="tv-green">Зростання продажів</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">95–100%</span>
+                            <span class="scale-label" id="tv-yellow">Стагнація</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 95%</span>
+                            <span class="scale-label" id="tv-red">Падіння продажів</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="tv-example">ТВ = 85% означає: виручка впала на 15%. Компанія втрачає ринок.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="tv-actions">
+                            <li>Оцінити причини падіння</li>
+                            <li>Перевірити галузеві тренди</li>
+                            <li>Посилити контроль за платежами</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="tvk-title">ТВК (Темп власного капіталу) <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(Equity Growth Rate)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формули</span></div>
+                        <div class="formula-box" id="tvk-formula">
+                            <strong>Темп зміни:</strong> ВК кінця (1495) / ВК початку (1495) × 100% <em>(для Золотого правила)</em><br>
+                            <strong>Темп зростання:</strong> Чистий прибуток (2350) / Середній ВК × 100% <em>(= ROE, потенціал)</em><br>
+                            <small style="color: var(--text-secondary);">Середній ВК = (ВК початку + ВК кінця) / 2 | Склад: Статутний + Додатковий + Резервний + Нерозподілений прибуток</small>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="tvk-meaning"><strong>Швидкість збільшення власного капіталу</strong> через реінвестування прибутку. Показує, наскільки ефективно компанія використовує власний капітал для розширення діяльності. Важливий індикатор <strong>фінансової стійкості та потенціалу зростання</strong>. Допомагає оцінити, чи може компанія самостійно фінансувати розвиток.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🔍 <span class="label-usage">Практичне значення</span></div>
+                        <p class="meaning-text">
+                            • <strong>Високий ТВК</strong> — ефективне управління, сильний потенціал розвитку, здатність до самофінансування<br>
+                            • <strong>Низький ТВК</strong> — стагнація або неефективне використання ресурсів, потреба у зовнішніх коштах<br>
+                            • <strong>Зв'язок з ROE:</strong> якщо весь прибуток реінвестується → ТВК ≈ 100% + ROE (напр. ROE=20% → ТВК≈120%)
+                        </p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 110%</span>
+                            <span class="scale-label" id="tvk-green">Активне зміцнення — ефективне реінвестування</span>
+                        </div>
+                        <div class="scale-row green" style="background: rgba(34, 197, 94, 0.08);">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">100–110%</span>
+                            <span class="scale-label">Помірне зростання — стабільна капітальна база</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">95–100%</span>
+                            <span class="scale-label" id="tvk-yellow">Стагнація — прибуток виводиться або мінімальний</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 95%</span>
+                            <span class="scale-label" id="tvk-red">Скорочення — збитки, виплата дивідендів або вихід учасників</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="tvk-example"><strong>ТВК = 125%</strong> — власний капітал зріс на 25%, компанія активно реінвестує прибуток → сильний потенціал самофінансування. <strong>ТВК = 85%</strong> — капітал скоротився на 15% → збитки або виведення коштів власниками, фінансова стійкість під загрозою.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="tvk-actions">
+                            <li>При ТВК < 100% — з'ясувати причину: збитки vs дивіденди vs вихід учасників</li>
+                            <li>Порівняти з ТА — якщо ТА > ТВК, компанія фінансує зростання боргами</li>
+                            <li>Порівняти з ROE — високий ROE при низькому ТВК = прибуток виводиться</li>
+                            <li>Оцінити разом з Equity Ratio для повної картини фінансової незалежності</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h3 id="ta-title">ТА (Темп активів)</h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Формула</span></div>
+                        <div class="formula-box" id="ta-formula">Активи кінця / Активи початку × 100%</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що показує</span></div>
+                        <p class="meaning-text" id="ta-meaning">Динаміка масштабу бізнесу. Показує, чи інвестує компанія у розвиток.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">📊 <span class="label-scale">Шкала оцінки</span></div>
+                        <div class="scale-row green">
+                            <span class="scale-dot green"></span>
+                            <span class="scale-threshold">> 100%</span>
+                            <span class="scale-label" id="ta-green">Розширення бізнесу</span>
+                        </div>
+                        <div class="scale-row yellow">
+                            <span class="scale-dot yellow"></span>
+                            <span class="scale-threshold">95–100%</span>
+                            <span class="scale-label" id="ta-yellow">Стабільний масштаб</span>
+                        </div>
+                        <div class="scale-row red">
+                            <span class="scale-dot red"></span>
+                            <span class="scale-threshold">< 95%</span>
+                            <span class="scale-label" id="ta-red">Скорочення бізнесу</span>
+                        </div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="ta-example">ТА = 130% при ТВ = 105% означає: активи ростуть швидше за виручку. Можливе затоварення.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані дії</span></div>
+                        <ul class="actions-list" id="ta-actions">
+                            <li>Порівняти з ТВ та ТП</li>
+                            <li>Оцінити структуру нових активів</li>
+                            <li>Перевірити ефективність інвестицій</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ==================== CONTRACTOR CATEGORIES ==================== -->
+            <div class="page" id="page-categories">
+                <div class="page-header">
+                    <h2>🏷️ <span id="title-categories">Категорії контрагентів</span></h2>
+                    <p id="desc-categories">Підсумкова класифікація за рівнем ризику</p>
+                    <div style="margin-top: 12px; padding: 12px 14px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                        <p style="margin: 0 0 8px 0; font-weight: 600; color: var(--text-primary);">🔍 Чек-лист перевірки благонадійності контрагента</p>
+                        <p style="margin: 0 0 10px 0; font-size: 13px; color: var(--text-secondary);">На основі методології <a href="https://youcontrol.com.ua" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">YouControl</a> — система аналізує 600+ факторів обачності</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+                            <div>
+                                <p style="margin: 0 0 6px 0; font-weight: 600; color: #22c55e;">✅ Ознаки надійності:</p>
+                                <ul style="margin: 0; padding-left: 16px; color: var(--text-secondary);">
+                                    <li>Статус «не в процесі припинення»</li>
+                                    <li>На ринку > 3 років</li>
+                                    <li>Зростаючі дохід і активи</li>
+                                    <li>Достатня ліквідність (CR > 1)</li>
+                                    <li>Перемоги в тендерах</li>
+                                    <li>Діючі ліцензії</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="margin: 0 0 6px 0; font-weight: 600; color: #ef4444;">❌ Червоні прапорці:</p>
+                                <ul style="margin: 0; padding-left: 16px; color: var(--text-secondary);">
+                                    <li>Санкції (міжнародні/РНБО)</li>
+                                    <li>Процедура банкрутства</li>
+                                    <li>Адреса масової реєстрації</li>
+                                    <li>Директор = «масовий керівник»</li>
+                                    <li>Афіліати з компаніями-шахраями</li>
+                                    <li>Податковий борг > 3060 грн</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; padding: 8px 10px; background: rgba(255,255,255,0.5); border-radius: 6px;">
+                            <p style="margin: 0; font-size: 12px; color: var(--text-secondary);"><strong>Експрес-аналіз YouControl:</strong> 
+                                <span style="background: #22c55e; color: white; padding: 1px 6px; border-radius: 3px; font-weight: 600;">A</span> низький ризик · 
+                                <span style="background: #eab308; color: white; padding: 1px 6px; border-radius: 3px; font-weight: 600;">B</span> помірний · 
+                                <span style="background: #f97316; color: white; padding: 1px 6px; border-radius: 3px; font-weight: 600;">C</span> підвищений · 
+                                <span style="background: #ef4444; color: white; padding: 1px 6px; border-radius: 3px; font-weight: 600;">D</span> високий
+                            </p>
+                        </div>
+                        <div style="margin-top: 10px; padding: 8px 10px; background: rgba(147, 51, 234, 0.1); border-radius: 6px; border-left: 2px solid #9333ea;">
+                            <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: var(--text-primary);">🔗 Пошук афіліатів — перевірка зв'язків</p>
+                            <p style="margin: 0; font-size: 11px; color: var(--text-secondary);">
+                                <strong>Афілійовані особи</strong> — юридичні/фізичні особи, які впливають на управлінські рішення компанії.<br>
+                                <strong>Типи зв'язків:</strong> засновник · бенефіціар · філія · адреса · керівництво (поточні та історичні)<br>
+                                <strong>Важливо:</strong> Виявляє «псевдо-тендери» (кілька компаній від одних власників), приховані філіали, зв'язки з офшорами.<br>
+                                <a href="https://youcontrol.com.ua/affiliates/" target="_blank" style="color: #9333ea; text-decoration: none; font-weight: 500;">→ Інструмент «Пошук зв'язків» YouControl</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="indicator-card" style="border-left: 4px solid var(--green);">
+                    <h3 style="color: var(--green);">🟢 RELIABLE <span id="reliable-subtitle">(Надійні)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Критерії</span></div>
+                        <div class="formula-box" id="reliable-formula">Немає червоних індикаторів, ≤1 жовтого, немає стоп-факторів</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що означає</span></div>
+                        <p class="meaning-text" id="reliable-meaning">Контрагент демонструє фінансово стабільні результати. Всі ключові показники в нормі.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="reliable-example" style="border-left-color: var(--green); background: rgba(34, 197, 94, 0.1);">Компанія з Cash ratio > 0.2, Quick ratio > 1.0, ROS > 5%, позитивним капіталом та CCC < 60 днів.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані умови</span></div>
+                        <ul class="actions-list" id="reliable-actions">
+                            <li>Стандартна відстрочка за рівнем L1–L2</li>
+                            <li>Ліміт за формулою</li>
+                            <li>Щоквартальний моніторинг</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card" style="border-left: 4px solid var(--yellow);">
+                    <h3 style="color: var(--yellow);">🟡 MEDIUM <span id="medium-subtitle">(Середні)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Критерії</span></div>
+                        <div class="formula-box" id="medium-formula">1 червоний АБО ≥2 жовтих АБО є аналітичні застереження</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що означає</span></div>
+                        <p class="meaning-text" id="medium-meaning">Контрагент має задовільні, але не оптимальні показники. Є фактори ризику.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="medium-example">Компанія з CCC > 120 днів, або ROS < 2%, або AR_share > 40%. Формально платоспроможна, але має слабкості.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані умови</span></div>
+                        <ul class="actions-list" id="medium-actions">
+                            <li>Скорочена відстрочка</li>
+                            <li>Зменшений ліміт</li>
+                            <li>Вимагати забезпечення (порука, застава)</li>
+                            <li>Щомісячний моніторинг</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indicator-card" style="border-left: 4px solid var(--red);">
+                    <h3 style="color: var(--red);">🔴 CRITICAL <span id="critical-subtitle">(Критичні)</span></h3>
+                    <div class="indicator-section">
+                        <div class="section-label">📐 <span class="label-formula">Критерії</span></div>
+                        <div class="formula-box" id="critical-formula">≥2 червоних АБО від'ємний капітал АБО стоп-фактори</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">🎯 <span class="label-meaning">Що означає</span></div>
+                        <p class="meaning-text" id="critical-meaning">Контрагент має незадовільні фінансові показники. Високий ризик неплатежу або банкрутства.</p>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">⚠️ <span class="label-example">Приклад</span></div>
+                        <div class="example-box" id="critical-example" style="border-left-color: var(--red); background: rgba(239, 68, 68, 0.1);">Компанія з від'ємним капіталом, заборгованістю із зарплат, або Current ratio < 0.8. Технічно неплатоспроможна.</div>
+                    </div>
+                    <div class="indicator-section">
+                        <div class="section-label">💡 <span class="label-actions">Рекомендовані умови</span></div>
+                        <ul class="actions-list" id="critical-actions">
+                            <li>ТІЛЬКИ 100% передоплата</li>
+                            <li>Як виняток — банківська гарантія</li>
+                            <li>Порука від бенефіціара особисто</li>
+                            <li>Постійний моніторинг статусу</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <script>
+        let currentLang = 'ua';
+        
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update search placeholder
+            const placeholders = { ua: '🔍 Пошук...', en: '🔍 Search...', de: '🔍 Suchen...' };
+            document.getElementById('searchInput').placeholder = placeholders[lang];
+            
+            // Here would be full translation logic
+            // For demo, just show alert
+            if (lang !== 'ua') {
+                console.log('Language switched to: ' + lang);
+            }
+        }
+        
+        function showPage(pageId, element) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function searchIndicators() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.indicator-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+        
+        // Handle URL hash for direct linking
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const navItem = document.querySelector(`[onclick*="'${hash}'"]`);
+                if (navItem) showPage(hash, navItem);
+            }
+        });
+    </script>
+</body>
+</html>
