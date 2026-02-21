@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)file:///C:/Users/winre/Downloads/Telegram%20Desktop/analysis_●●●●●●●●_full%20(2).html -->
+<html lang="uk"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аналіз: ТОВ «ДЕМО-КОМПАНІЯ» (ПРИКЛАД)</title>
+  <style>
+    :root {
+      --clr-bg: #1a1d2e;
+      --clr-surface: #242842;
+      --clr-border: #2e3350;
+      --clr-text: #ffffff;
+      --clr-text-muted: #ffffff;
+      --clr-text-strong: #ffffff;
+      --clr-accent: #6c63ff;
+      --clr-accent-dim: rgba(108,99,255,0.18);
+      --clr-red: #f04848;
+      --clr-red-dim: rgba(240,72,72,0.15);
+      --clr-orange: #f59e0b;
+      --clr-orange-dim: rgba(245,158,11,0.10);
+      --clr-green: #22c55e;
+      --clr-green-dim: rgba(34,197,94,0.10);
+      --clr-grey-dim: rgba(100,100,120,0.18);
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.6;
+      font-size: 15px;
+      min-height: 100vh;
+      padding: 32px 20px;
+    }
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    /* ─── HEADER ─── */
+    .header {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: 16px;
+      padding: 28px 30px;
+      padding-right: 100px;
+      min-height: 120px;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      bottom: 0; left: 0;
+      border-radius: 16px;
+      background: radial-gradient(circle at top right, rgba(108,99,255,0.18) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--clr-red-dim);
+      border: 1px solid rgba(240,72,72,0.25);
+      color: var(--clr-red);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .header-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--clr-red);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .header-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--clr-text-strong);
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+    .header-meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .header-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+    }
+    .header-meta-item .label { color: var(--clr-text-muted); }
+    .header-meta-item .value { color: var(--clr-text); font-weight: 500; }
+    /* ─── SECTION ─── */
+    .section {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--clr-border);
+      background: rgba(0,0,0,0.15);
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-header:hover { background: rgba(0,0,0,0.25); }
+    .section-icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .icon-blue { background: var(--clr-accent-dim); }
+    .icon-red { background: var(--clr-red-dim); }
+    .icon-orange { background: var(--clr-orange-dim); }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--clr-text-strong);
+      flex: 1;
+    }
+    .section-chevron {
+      color: var(--clr-text-muted);
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+    .section.collapsed .section-chevron { transform: rotate(-90deg); }
+    .section-body { padding: 20px; }
+    .section.collapsed .section-body { display: none; }
+    /* ─── CONTENT ─── */
+    .section-body p {
+      margin-bottom: 10px;
+      color: var(--clr-text);
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+    .section-body p:last-child { margin-bottom: 0; }
+    .section-body strong { color: var(--clr-text-strong); font-weight: 600; }
+    .section-body em { color: var(--clr-text-muted); font-style: italic; }
+    .section-body a { color: var(--clr-accent); text-decoration: none; }
+    .section-body a:hover { text-decoration: underline; }
+    /* v3.6.2: захист від overflow */
+    .section-body code { white-space: pre-wrap; word-break: break-word; font-family: monospace; color: var(--clr-accent); }
+    .section-body pre { white-space: pre; overflow-x: auto; font-family: "Courier New", Consolas, monospace; font-size: 15px; line-height: 1.6; background: rgba(0,0,0,0.15); padding: 10px; border-radius: 6px; }
+    .section-body table { overflow-wrap: anywhere; }
+    /* ─── BENCHMARK TABLE ─── */
+    
+    
+    
+    
+    
+    
+    
+    .severity-good { background: rgba(34,197,94,0.06); }
+    /* ─── INSIGHTS ─── */
+    .insights {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .insight-dot {
+      flex-shrink: 0;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-top: 5px;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    /* ─── BENCHMARK SUMMARY ─── */
+    
+    
+    
+    
+    
+    /* ─── INDUSTRY INFO ─── */
+    .industry-info {
+      background: var(--clr-grey-dim);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 16px;
+      color: var(--clr-text);
+    }
+    /* ─── SIGNIFICANT TRANSACTION ─── */
+    .sig-transaction {
+      background: var(--clr-orange-dim);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+    }
+    .sig-threshold {
+      font-size: 13px;
+      color: var(--clr-text);
+      margin-bottom: 6px;
+    }
+    .sig-threshold strong { color: var(--clr-text-strong); }
+    .sig-warning {
+      background: var(--clr-red-dim);
+      border-left: 3px solid var(--clr-red);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      color: var(--clr-red);
+      margin-top: 10px;
+    }
+    .sig-note {
+      background: var(--clr-green-dim);
+      border-left: 3px solid var(--clr-green);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      color: var(--clr-green);
+      margin-top: 8px;
+    }
+    /* ─── DISCLAIMER ─── */
+    .disclaimer {
+      background: var(--clr-grey-dim);
+      border-left: 3px solid var(--clr-text-muted);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--clr-text-muted);
+      font-style: italic;
+      margin-top: 14px;
+    }
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      padding: 24px 20px 8px;
+      color: var(--clr-text-muted);
+      font-size: 11.5px;
+      line-height: 1.8;
+    }
+    .footer strong { color: var(--clr-text); }
+    .footer a { color: var(--clr-accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer hr {
+      border: none;
+      border-top: 1px solid var(--clr-border);
+      margin: 10px 0;
+    }
+    @media print {
+      body { background: #fff; padding: 20px; color: #1a1a1a; }
+      .header, .section { border-color: #ddd; background: #fff; }
+      .section-header { background: #f5f5f7; }
+      .section-title, .header-title { color: #1a2634; }
+      .section-body p, .section-body strong { color: #1a1a1a; }
+      .section-body em { color: #4a5568; }
+      .header-meta-item .label { color: #4a5568; }
+      .header-meta-item .value { color: #1a2634; }
+      .section-chevron { color: #4a5568; }
+      
+      
+      
+      .industry-info { background: #f0f2f5; color: #1a1a1a; }
+      .sig-transaction { background: rgba(225,112,85,0.06); border-color: rgba(245,158,11,0.3); }
+      .sig-threshold { color: #1a1a1a; }
+      .sig-threshold span { color: #4a5568 !important; }
+      .sig-warning { background: rgba(214,48,49,0.06); color: #d63031; }
+      .sig-note { background: rgba(0,184,148,0.06); color: #00856a; }
+      .disclaimer { background: #f0f2f5; color: #4a5568; }
+      
+      
+      .footer { color: #4a5568; }
+      .footer strong { color: #1a2634; }
+      .footer hr { border-top-color: #ddd; }
+    }
+  
+    .demo-banner {
+      background: linear-gradient(135deg, #6c63ff 0%, #4834d4 100%);
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+    .demo-banner small {
+      display: block;
+      font-weight: 400;
+      font-size: 12px;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="demo-banner">🔒 ДЕМО-ВЕРСІЯ ЗВІТУ — чутливі дані приховано<small>Реальний звіт містить повну деталізацію для прийняття управлінських рішень</small></div>
+
+  <div class="header">
+    <div class="header-badge" style="background:var(--clr-orange-dim);color:var(--clr-orange);padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;margin-top:8px;display:inline-block;">⚠️ ПІДВИЩЕНИЙ РИЗИК</div>
+    <div class="header-title">ТОВ «ДЕМО-КОМПАНІЯ»</div>
+    <div class="header-meta">
+      <div class="header-meta-item"><span class="label">ЄДРПОУ</span><span class="value">●●●●●●●●</span></div>
+      <div class="header-meta-item"><span class="label">Згенеровано</span><span class="value">14.02.2026, 19:50:16</span></div>
+    </div>
+  </div>
+
+  <div class="section" id="s1">
+    <div class="section-header" onclick="toggle(&#39;s1&#39;)">
+      <div class="section-icon icon-red">📋</div>
+      <div class="section-title">Умови співпраці</div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <p>🔍 <strong><em>КОНТРАГЕНТ ІНФО</em></strong>       <br>
+———————————</p><p>🏢 <strong>ТОВ «ДЕМО-КОМПАНІЯ»</strong></p><p>🆔 <strong>ЄДРПОУ/ІПН</strong>: ●●●●●●●●<br>
+👤 <strong>Керівник</strong>: ●●●●●●●● ●●●●●● ●●●●●●●●●●●<br>
+📍 <strong>Адреса</strong>: ●●●●●●●●●●●●●●●●<br>
+🏷️ <strong>Статус</strong>: Не перебуває в процесі припинення<br>
+📋 <strong>КВЕД</strong>: 45.11 — Торгівля автомобілями та легковими автотранспортними засобами<br>
+📅 <strong>Дата реєстрації</strong>: 26.10.2004<br>
+👥 <strong>Працівників</strong>: 50</p><p>📞 <strong>КОНТАКТИ</strong><br>
+📱 <strong>Телефон</strong>: ●●●●●●●●●●●●●●<br>
+📧 <strong>Email</strong>: не зазначено</p><p>💰 <strong>Статутний капітал</strong>: ● ●●● ●●● грн<br>
+🎖️ <strong>СТАТУС</strong>: 🏆 ВЕЛИКИЙ БІЗНЕС</p><p>———————————<br>
+🛡 <strong>ПОВНОТА ЗВІТНОСТІ: 94%</strong> 🟩🟩🟩🟩🟩🟩🟩🟩🟩⬜<br>
+↗️ Фінзвітність актуальна (2025, Q3, давність: 4 міс (136 дн))<br>
+⚠️ <strong>РІВЕНЬ ПОПЕРЕДЖЕННЯ №2 (ПІДВИЩЕНИЙ РИЗИК)</strong></p><p>➡️ Наявність заборгованості перед бюджетом<br>
+потребує уточнення статусу та враховується при платіжному аналізі.<br>
+Заборгованість перед бюджетом становить ●● ●●● тис. грн (5.9% від поточних зобов'язань) і має переважну підставу оплати перед комерційними зобов'язаннями. Такий рівень бюджетних зобов'язань може впливати на черговість платежів і доступний обсяг коштів для виконання договірних розрахунків.</p><p>———————————<br>
+📋 <strong>ВИСНОВОК</strong><br>
+📊 <strong>ГАЛУЗЕВЕ ПОРІВНЯННЯ:</strong> торгівля.</p><p><strong>✅ ФАКТОРИ, ЩО ПОЗИТИВНО ВПЛИВАЮТЬ НА ПЛАТОСПРОМОЖНІСТЬ:</strong><br>
+• висока фінансова автономія (73,8% власного капіталу)<br>
+• зростання прибутковості</p><p><strong>⚠️ ФАКТОРИ, ЩО СТВОРЮЮТЬ НАВАНТАЖЕННЯ НА ПЛАТОСПРОМОЖНІСТЬ:</strong><br>
+• низький запас грошових коштів<br>
+• довгий операційний цикл (152 дн, норма: до 60 дн)</p><p>└ З урахуванням структури оборотного капіталу можливим варіантом балансування грошових потоків сторін є змішана модель розрахунків: часткова попередня оплата та відстрочка залишку в межах погодженого строку та ліміту.</p><p>———————————<br>
+<strong>ІНТЕГРОВАНА ОЦІНКА:</strong><br>
+• Залишок на рахунках покриває лише 5% поточних зобов'язань, при обсязі зобов'язань ●●● ●●● тис. грн.</p><p>• Заборгованість перед бюджетом становить ●● ●●● тис. грн (5.9% від поточних зобов'язань) і має переважну підставу оплати перед комерційними зобов'язаннями.</p><p>———————————<br>
+➡️ <strong>З огляду на фінансовий профіль, умови співпраці потребують додаткової оцінки (на розсуд користувача).</strong></p><p>———————————<br>
+📜 <strong>ЗНАЧНИЙ ПРАВОЧИН</strong> (ст.44 ЗУ «Про ТОВ»)</p><p><strong>Поріг:</strong> ●●● ●●● тис. грн (50% чистих активів)<br>
+Угоди понад цю суму потребують схвалення загальними зборами</p><p>⚠️ <em>Застереження: угода із значним правочином, яка не була схвалена відповідно до закону, може бути оскаржена в суді як така, що підписана неуповноваженою особою.</em><br>
+💡 <em>Перевірте статут — обмеження можуть бути суворіші</em></p><p><em>Аналіз базується на офіційній фінзвітності з публічних реєстрів і не охоплює позабалансові зобов'язання, судові провадження та репутаційні ризики. Звіт має аналітичний характер — остаточні рішення приймаються користувачем самостійно.</em></p><p>———————————</p>
+    </div>
+  </div>
+
+  <div class="section" id="s2">
+    <div class="section-header" onclick="toggle(&#39;s2&#39;)">
+      <div class="section-icon icon-blue">📊</div>
+      <div class="section-title">Дослідження і висновки</div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      
+      <p>📊 <strong>ДОСЛІДЖЕННЯ І ВИСНОВКИ</strong><br>
+———————————━━━━━━━━━━━</p>
+<p><strong>Компанія:</strong> ТОВ «ДЕМО-КОМПАНІЯ»<br>
+<strong>ЄДРПОУ:</strong> ●●●●●●●●<br>
+<strong>Статус:</strong> 🏆 ВЕЛИКИЙ БІЗНЕС<br>
+↗️ <strong>Актуальність:</strong> A (4 міс (136 дн))<br>
+⏱ <strong>Дані оброблено:</strong> 2026-02-14</p>
+<pre>⚖️ БАЛАНС ФІНАНСОВОЇ СТРУКТУРИ (тис. грн, горизонт: Q+1)
+  Ціль - виявити перекоси і визначити досягнення оптимальних показників у часі.
+
+  Показник                    Q2'25       Q3'25          %   Орієнтир   Перекіс
+─────────────────────────────────────────────────────────────────────────────────────
+↗️Виручка (2000)          ● ●●● ●●●   ● ●●● ●●●     +68.8%         —   без перекосу
+↗️Прибуток (2350)           ●●● ●●●     ●●● ●●●     +83.0%         —   без перекосу
+↗️Активи (1300)           ● ●●● ●●●   ● ●●● ●●●      +0.9%         —   без перекосу
+↘️Капітал (1495)          ● ●●● ●●●   ● ●●● ●●●      −7.8%         —   без перекосу
+↘️Грош.кошти (1165)          ●● ●●●      ●● ●●●     −31.2%         —   без перекосу
+↗️Зобов'язання (1695)       ●●● ●●●     ●●● ●●●     +40.6%         —   без перекосу
+↘️Деб.торгова (1125)         ●● ●●●      ●● ●●●     −16.5%         —   без перекосу
+↘️Деб.інша (1155)           ●●● ●●●     ●●● ●●●     −23.5%         —   без перекосу
+↘️Борг бюджету (1620)        ●● ●●●      ●● ●●●     −17.8%    ●● ●●●   6% від зоб.
+↗️Запаси (1100)           ● ●●● ●●●   ● ●●● ●●●     +18.6%         —   без перекосу
+↘️Кред.торгова (1615)        ●● ●●●      ●● ●●●     −24.5%         —   без перекосу
+↗️Необорот.акт. (1095)       ●● ●●●      ●● ●●●      +1.9%         —   без перекосу
+</pre>
+<pre>📊 ГАЛУЗЕВИЙ ПРОФІЛЬ (КВЕД 45)
+  Показник                   Факт    Галузь       %
+────────────────────────────────────────────────────────────
+↗️Чиста маржа                  7%        3%       +147%      ✅
+↗️Покриття боргів            3.86      1.30       +197%      ✅
+↘️Швидка ліквідність         0.67      0.80        −17%      ⚠️
+↘️Грошовий запас             0.05      0.10        −47%      ⚠️
+↗️Частка влас.капіталу        74%       30%       +146%      ✅
+↘️Оплата покупцями          23 дн     20 дн        +17%      ⚠️
+↘️Оборотн.запасів          132 дн     60 дн       +121%      ⚠️
+↘️Оплата постачальн.         4 дн     45 дн        −91%      ⚠️
+↘️Операційний цикл         152 дн     35 дн       +334%      ⚠️
+</pre>
+<pre>💧 ЯКІСТЬ ЛІКВІДНОСТІ
+ Запаси        🟦🟦🟦🟦🟦🟦🟦⬜⬜⬜ 73%
+ Деб. інша     🟦⬜⬜⬜⬜⬜⬜⬜⬜⬜ 13%
+ Інше          🟦⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%
+ Деб. торгова  ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 3%
+ Грошові кошти ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 1%
+</pre>
+<p>———————————<br>
+📊 <strong>ПОКАЗНИК ОЦІНКИ ЙМОВІРНОСТІ БАНКРУТСТВА</strong><br>МЕТОД ТЕРЕЩЕНКО О.О.<br>
+➡️ <strong>Задовільний фінансовий стан (умовно)</strong> (Z=8.82)<br>
+<em>💬 Скорингова оцінка потребує обережної інтерпретації. Запас міцності тонкий</em><br>
+<br>↗️ <strong>ПОКРИТТЯ ФІНАНСОВИХ ВИТРАТ:</strong> 7,27<br>
+<em>💬 Операційний прибуток значно перевищує фінансові витрати. Боргове навантаження не створює тиску на поточну діяльність.</em><br>
+<br>➡️ <strong>КОЕФІЦІЄНТ ФІНАНСОВОЇ МІЦНОСТІ:</strong> 4/7<br>
+<em>💬 Фінансова динаміка неоднорідна — частина показників покращується, частина погіршується. Загальний стан потребує додаткової уваги до слабких напрямків.</em><br>
+<br>➡️ <strong>КОЕФІЦІЄНТ ПЛАТОСПРОМОЖНОСТІ:</strong> 0,21<br>
+<em>💬 Компанія генерує операційний потік, але його достатність для погашення боргу є помірною. Зміна умов кредитування може створити тиск на ліквідність.</em><br>
+———————————<br>
+🎯 <strong>КОЕФІЦІЄНТИ ФІНАНСОВИХ ПОКАЗНИКІВ</strong> (Q2 2025 → Q3 2025):<br>
+ ↘️ <strong>Готівкова ліквідність:</strong> 0,05 — частка зобов'язань, покрита готівкою<br>
+ ↘️ <strong>Швидка ліквідність:</strong> 0,67 — платоспроможність без продажу запасів<br>
+ ↘️ <strong>Фінансова автономія:</strong> 73,8% — частка власного капіталу<br>
+ ↘️ <strong>Чистий борг / Виручка:</strong> 14,3% — боргове навантаження<br>
+ ↗️ <strong>Рентабельність продажів:</strong> 7,4% — рентабельність продажів<br>
+➡️ <strong>Оборот дебіторки:</strong> 23 дн — строк оплати покупцями<br>
+➡️ <strong>Операційний цикл:</strong> 152 дн — тривалість обороту<br>
+➡️ <strong>Інша дебіторка:</strong> 12,4% — якість активів<br>
+➡️ <strong>Оборот кредиторки:</strong> 4 дн — строк оплати постачальникам<br>
+↗️ <strong>Вартість боргу:</strong> 8,7% — імпліцитна ставка<br>
+ ↘️ <strong>Поточна ліквідність:</strong> 3,86 — покриття поточних зобов'язань<br>
+➡️ <strong>Запаси / Виручка:</strong> 40,4% — ефективність запасів<br>
+↗️ <strong>Обор. капітал / Виручка:</strong> 40,9% — ефективність оборотного капіталу<br><br>➡️ <strong>ЗВЕДЕНА ОЦІНКА:</strong> з 13 показників 3 покращуються, 5 стабільні, 5 погіршуються. Фінансовий профіль збалансований, без виражених критичних зон.</p>
+<p>———————————<br>
+💰 <strong>ГРОШОВИЙ ПОТІК (proxy):</strong><br>
+↗️ <strong>Операційний потік (proxy):</strong> ●●● ●●● тис. грн (конверсія 43%)<br>
+  головний фактор: запаси -●●● ●●● тис. грн</p>
+<p>📊 <strong>СТРУКТУРА БОРГУ:</strong><br>
+• Довгострокові: ●● ●●● тис. грн (5.4%)<br>
+• Короткострокові: ●●● ●●● тис. грн (94.6%)<br>
+⚠️ Борг переважно короткостроковий, але покриття достатнє (ризик рефінансування обмежений)</p>
+<p>➡️ <strong>КОМЕНТАР:</strong> Тренд рентабельності негативний — операційна ефективність погіршується. Це може обґрунтовувати більш стримане трактування допустимих строків відстрочки.</p>
+<p>———————————<br>
+📊 <strong>АНАЛІЗ РЕНТАБЕЛЬНОСТІ (vs FY, орієнтовно)</strong></p>
+<p>📅 <strong>Поточний період:</strong> 2025 (9 міс)<br>
+📅 <strong>Порівняльний період:</strong> 2024 (12 міс) <em>(орієнтовно, неспівставні періоди)</em></p>
+<p><strong>КЛЮЧОВІ ПОКАЗНИКИ:</strong><br>
+↘️ <strong>Операційна маржа:</strong> 9,6%  vs FY: -4,82 п.п. <em>(орієнт.)</em><br>
+↘️ <strong>Рентабельність активів:</strong> 12,9%  vs FY: -7,52 п.п. <em>(орієнт.)</em><br>
+➡️ <strong>Рентабельність капіталу:</strong> 17,4% — дохідність власного капіталу</p>
+<p><strong>ВИСНОВКИ:</strong><br>
+⚠️ операційна маржа 9,6% є низькою; операційна ефективність обмежена.<br>
+✅ рентабельність активів 12,9% характеризує позитивну віддачу активів.<br>
+📉 Динаміка vs FY: операційна маржа знизився на 4,82 п.п. <em>(орієнтовно)</em></p>
+<p>ℹ️ <strong>МЕТОДОЛОГІЧНА ПРИМІТКА:</strong><br>
+операційний прибуток використовується як проксі операційного грошового потоку (операційний потік).</p>
+<p>———————————<br>
+➡️ <strong>ЗОЛОТЕ ПРАВИЛО ЕКОНОМІКИ — ЧАСТКОВО ВИКОНУЄТЬСЯ</strong><br><em>Прибуток має зростати швидше за дохід, а дохід — швидше за ресурси.</em><br>
+<em>(квартальна динаміка (к/к): Q2 2025 → Q3 2025)</em></p><p>💬 КОМЕНТАР: Динаміка ключових показників не формує вираженого тренду розвитку. Загалом темпи зміни показників не демонструють критичних диспропорцій, але потребують моніторингу.</p><p></p><p>↗️ <strong>ЗОЛОТЕ ПРАВИЛО ФІНАНСУВАННЯ — ВИКОНУЄТЬСЯ</strong><br><em>Термін, на який залучені кошти, має бути довшим за час, необхідний для їхнього повернення з обороту.</em></p><p>💬 КОМЕНТАР: Коефіцієнт покриття необоротних активів становить 0,06 — довгострокові активи повністю забезпечені стабільними джерелами фінансування. Коефіцієнт поточної ліквідності — 3,86 — оборотних активів достатньо для покриття короткострокових зобов’язань. Строки залучення фінансування узгоджуються зі строками використання активів: довгострокові потреби забезпечені довгостроковими ресурсами.</p><p>———————————<br>
+📋 <strong>РОЗГОРНУТІ ПОЯСНЕННЯ ФАКТОРІВ РИЗИКУ</strong></p>
+<p>🔎 <strong>Низька грошова ліквідність (готівкова ліквідність)</strong><br>
+— готівкова ліквідність відображає частку поточних зобов'язань, яка може бути покрита грошовими коштами без конверсії інших активів.<br>
+— Низьке значення означає, що реальна платіжна здатність у короткому горизонті може залежати від того, як швидко розраховуються покупці контрагента, або від залучення додаткових коштів.<br>
+— Типові джерела: тривалі строки розрахунків покупців, сезонність надходжень, концентрація обігових у дебіторці/запасах.<br>
+— Компенсаторами можуть виступати стабільний операційний cash-flow, підтверджені кредитні лінії або висока прогнозованість надходжень.<br>
+<em>Що може уточнити оцінку:</em><br>
+  • Обороти/залишки за рахунками.<br>
+  • Графік платежів за найближчі 30–90 днів.<br>
+  • Розшифровка значних статей поточних зобов'язань.</p>
+<p>🔎 <strong>Зобов'язання перед бюджетом</strong><br>
+— Наявність зобов'язань сама по собі не є негативним фактором; ключове — строковість, склад та наявність прострочки.<br>
+— Податкові платежі часто мають вищу пріоритетність, що може конкурувати з іншими платежами.<br>
+<em>Що може уточнити оцінку:</em><br>
+  • Розшифровка 1620 (тип, строковість, прострочка).<br>
+  • Графік погашення.</p>
+    
+    </div>
+  </div>
+
+  
+
+  
+
+  <div class="footer">
+    <strong>© КОНТРАГЕНТ ІНФО. Всі права захищено.</strong><br>
+    Згенеровано: 14.02.2026, 19:50:16 | WF v3.62
+    <hr>
+    Програма КОНТРАГЕНТ ІНФО — авторська методика аналітичної обробки відкритих даних та даних, отриманих з публічних реєстрів і сервісів. Матеріали звіту мають інформаційно-аналітичний характер, не є аудиторським, експертним, фінансовим, юридичним чи інвестиційним висновком і не створюють зобов'язань для сторін. Остаточні управлінські рішення приймаються користувачем самостійно з урахуванням власної оцінки ризиків.<br>
+    Ліцензійні умови — <a href="https://github.com/IgorPushkarev/Contractor-bot-docs/blob/main/LICENSE.md" target="_blank">тут</a> &nbsp;|&nbsp;
+    Конфіденційність — <a href="https://github.com/IgorPushkarev/Contractor-bot-docs/blob/main/PRIVACY_POLICY.md" target="_blank">тут</a>
+  </div>
+
+</div>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+</script>
+
+</body></html>
