@@ -3,7 +3,7 @@
 **Програма перевірки контрагентів «КОНТРАГЕНТ ІНФО»**
 
 Дата набрання чинності: 28 грудня 2025 року
-Редакція: 21 лютого 2026 року
+Редакція: 21 лютого 2026 року (v2)
 
 ---
 
@@ -69,7 +69,7 @@
 - Ідентифікатор чату Telegram (chat_id) — для надсилання відповіді
 - Код ЄДРПОУ/ІПН — для формування запиту до відкритих джерел даних
 
-4.3. Дані обробляються в режимі реального часу та не кешуються після надсилання відповіді Користувачу.
+4.3. Обробка даних здійснюється Автором із використанням Програми. Після формування та надсилання аналітичного звіту дані не зберігаються.
 
 ---
 
@@ -170,7 +170,7 @@ ________________________________________________________________________________
 **Contractor Verification Program «КОНТРАГЕНТ ІНФО»**
 
 Effective Date: December 28, 2025
-Revision: February 21, 2026
+Revision: February 21, 2026 (v2)
 
 ---
 
@@ -236,7 +236,7 @@ Primary data about contractors is obtained from official open sources and public
 - Telegram chat identifier (chat_id) — to send a response
 - EDRPOU/TIN code — to form a request to open data sources
 
-4.3. Data is processed in real-time and is not cached after sending a response to the User.
+4.3. Data processing is performed by the Author using the Program. After the analytical report is generated and delivered, the data is not retained.
 
 ### 4.4. GDPR Compliance
 
