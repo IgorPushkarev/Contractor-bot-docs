@@ -39,7 +39,7 @@
 
 ### 2.3. Постачальник даних
 
-Первинні дані про контрагентів надаються сервісом **YouControl** (https://youcontrol.com.ua) відповідно до його [Правил використання](https://youcontrol.com.ua/site/terms-of-use/).
+Первинні дані про контрагентів надаються відкритими джерелами даних.
 
 ---
 
@@ -205,7 +205,7 @@ This Policy is developed taking into account international data protection stand
 
 ### 2.3. Data Provider
 
-Primary data about contractors is provided by **YouControl** service (https://youcontrol.com.ua) in accordance with its [Terms of Use](https://youcontrol.com.ua/site/terms-of-use/).
+Primary data about contractors is provided .
 
 ---
 
