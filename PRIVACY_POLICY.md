@@ -3,6 +3,7 @@
 **Бот перевірки контрагентів «КОНТРАГЕНТ ІНФО»**
 
 Дата набрання чинності: 28 грудня 2025 року
+Редакція: 21 лютого 2026 року
 
 ---
 
@@ -39,7 +40,7 @@
 
 ### 2.3. Постачальник даних
 
-Первинні дані про контрагентів надаються відкритими джерелами даних.
+Первинні дані про контрагентів отримуються з офіційних відкритих джерел та публічних реєстрів відповідно до умов їх використання.
 
 ---
 
@@ -66,7 +67,7 @@
 
 4.2. **Бот обробляє виключно:**
 - Ідентифікатор чату Telegram (chat_id) — для надсилання відповіді
-- Код ЄДРПОУ/ІПН — для формування запиту до YouControl
+- Код ЄДРПОУ/ІПН — для формування запиту до відкритих джерел даних
 
 4.3. Дані обробляються в режимі реального часу та не кешуються після надсилання відповіді Користувачу.
 
@@ -104,7 +105,7 @@
 7.1. Автор не несе відповідальності за:
 - Рішення, прийняті Користувачем на основі інформації Бота
 - Збитки, що виникли внаслідок використання інформації
-- Неточності в первинних даних, отриманих від YouControl
+- Неточності в первинних даних, отриманих з відкритих джерел
 - Технічні збої в роботі Бота чи сервісів третіх сторін
 - Зміни в законодавстві чи фінансовій звітності контрагентів
 
@@ -159,7 +160,7 @@ https://github.com/IgorPushkarev/Contractor-bot-docs/blob/main/PRIVACY_POLICY.md
 
 ---
 
-**© Ігор Ружицький, 2025. Всі права захищено.**
+**© Ігор Ружицький, 2025–2026. Всі права захищено.**
 
 ____________________________________________________________________________________________________________________________________
 ____________________________________________________________________________________________________________________________________
@@ -169,6 +170,7 @@ ________________________________________________________________________________
 **Contractor Verification Bot «КОНТРАГЕНТ ІНФО»**
 
 Effective Date: December 28, 2025
+Revision: February 21, 2026
 
 ---
 
@@ -205,7 +207,7 @@ This Policy is developed taking into account international data protection stand
 
 ### 2.3. Data Provider
 
-Primary data about contractors is provided .
+Primary data about contractors is obtained from official open sources and public registers in accordance with their terms of use.
 
 ---
 
@@ -232,7 +234,7 @@ Primary data about contractors is provided .
 
 ### 4.2. The Bot processes only:
 - Telegram chat identifier (chat_id) — to send a response
-- EDRPOU/TIN code — to form a request to YouControl
+- EDRPOU/TIN code — to form a request to open data sources
 
 4.3. Data is processed in real-time and is not cached after sending a response to the User.
 
@@ -277,7 +279,7 @@ In accordance with GDPR principles:
 7.1. The Author is not responsible for:
 - Decisions made by the User based on Bot information
 - Losses arising from the use of information
-- Inaccuracies in primary data received from YouControl
+- Inaccuracies in primary data received from open sources
 - Technical failures in the Bot or third-party services
 - Changes in legislation or contractors' financial statements
 
@@ -372,5 +374,4 @@ For requests related to personal data protection rights under GDPR or other inte
 
 ---
 
-**© Igor Ruzhytskyi, 2025. All rights reserved.**
-
+**© Igor Ruzhytskyi, 2025–2026. All rights reserved.**
